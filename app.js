@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 const request = require('request-promise');
 
+console.clear();
 
 // Testing Method
 async function init() {
@@ -26,98 +27,131 @@ async function init() {
 
     // console.log(quotesBlock.parent().next().html());
 }
-
-console.clear();
 // init();
 
-async function getDoujinObj(doujinNum = 375563){
+async function getRequest (uri = ""){
+    try{
+        return await request({
+            uri:uri,
+            transform: b => cheerio.load(b),
+        });
+    }catch(e){
+        throw Error("Page does Not Exist, Check Doujin Code from URL : " + uri);
+    }
+}
+
+async function getDoujinObj(doujinNum = '000000'){
 
     let response = {};
     let tiles = [];
+    
+    const $ = await getRequest(`https://nhentai.net/g/${( doujinNum | 0 )}/`);
 
-    const resp = await request({
-        uri:`https://nhentai.net/g/${doujinNum}/`,
-        transform: b => cheerio.load(b),
-    });
-
-    resp('.thumbs div.thumb-container a').each( ( x , e ) =>{ 
+    $('.thumbs div.thumb-container a').each( ( x , e ) =>{ 
         tiles.push({
-            tileIndex: x,
-            linkTo: resp(e).attr('href'),
-            tileView: resp(e).children().attr('data-src')
+            tileIndex: x + 1,
+            linkTo: $(e).attr('href'),
+            tileView: $(e).children().attr('data-src')
         })
     });
 
+//    console.log( $('#info-block section').eq(3));
 
+// console.log(
 
+    $('#info-block section#tags div').eq(2)
+    .children().each((x,e) => console.log($(e).eq(0) + '\n'))
+    // .html()
+    // + "\n"
 
-    resp('#info-block section#tags div[class="tag-container field-name"] span')
-    .each((x,e) => console.log(resp(e).html()))
-
-
+// )
 
     
-    response["name"] = resp('#info-block .title').text().replace("/>","");
-    response["code"] = resp('#info-block h3').text();
+    response["name"] = $('#info-block .title').text().replace("/>","");
+    response["code"] = $('#info-block h3').text();
     // response["tags"] = 
     response["tiles"] = tiles;
+
+    // console.log(response);
 
     return response;
 }
 
-console.clear();
 // getDoujinObj(375591);
-getDoujinObj(177013);
+// getDoujinObj(177013);
+// getDoujinObj();
+
+
+async function getRandomCode(){
+
+    let response = {};
+    let tiles = [];
+
+    const $ = await getRequest(`https://nhentai.net/random/`);
+
+    return response;
+} 
 
 
 async function getMainPageContentPopular(){
 
-    const mainRs = await request({
-        uri:`https://nhentai.net/`,
-        transform:b => cheerio.load(b),
-    });
+    const $ = await getRequest(`https://nhentai.net/`);
 
     const rrArr = [];
 
-    mainRs('div[class="container index-container index-popular"] .gallery')
+    $('div[class="container index-container index-popular"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
             index: i,
-            name: mainRs(e).text().split("/>")[1],
-            link: mainRs(e).attr('href'),
-            coverScr: mainRs(e).children().attr('data-src')
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src')
         })
     });
 
     return rrArr;
-
 }
 
-console.clear();
 // getMainPageContentPopular();
 
 async function getMainPageContentNoPopular(){
 
-    const mainRs = await request({
-        uri:`https://nhentai.net/`,
-        transform:b => cheerio.load(b),
-    });
-
+    const $ = await getRequest(`https://nhentai.net/`);
     const rrArr = [];
 
-    mainRs('div[class="container index-container"] .gallery a')
+    $('div[class="container index-container"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
             index: i,
-            name: mainRs(e).text().split("/>")[1],
-            link: mainRs(e).attr('href'),
-            coverScr: mainRs(e).children().attr('data-src')
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src')
+        })
+    });
+
+    return rrArr;
+}
+// getMainPageContentNoPopular();
+
+async function getAllTimePopular(){
+
+    const $ = await getRequest(
+        `https://nhentai.net/category/doujinshi/popular?page=1`
+    );
+
+    const rrArr = [];
+
+    $('div[class="container index-container"] .gallery a')
+    .each( (i,e) => {
+        rrArr.push({
+            index: i,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src')
         })
     });
 
     return rrArr;
 }
 
-console.clear();
-// getMainPageContentNoPopular();
-
+// getAllTimePopular();
