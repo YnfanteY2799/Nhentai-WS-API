@@ -87,17 +87,6 @@ async function getDoujinObj (  link = "" ){
     return response;
 }
 
-function setPopularity(popNum){ 
-    switch(popNum){
-        case 1 :
-            return "popular-today";
-        case 2 : 
-            return "popular-week";
-        default:
-            return "";
-    }
-}
-
 async function getCodedDoujin ( doujinNum = '000000' ){
     return getDoujinObj(`https://nhentai.net/g/${( doujinNum | 0 )}/`);
 }
@@ -114,7 +103,7 @@ async function getMainPageContentPopular (){
     $('div[class="container index-container index-popular"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
-            index: i,
+            index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
             coverScr: $(e).children().attr('data-src')
@@ -132,7 +121,7 @@ async function getMainPageContentNoPopular (){
     $('div[class="container index-container"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
-            index: i,
+            index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
             coverScr: $(e).children().attr('data-src')
@@ -142,7 +131,7 @@ async function getMainPageContentNoPopular (){
     return rrArr;
 }
 
-async function getPopularbyPage ( pageNum = 1 ){
+async function getPopularDoujinshibyPage ( pageNum = 1 ){
 
     let $ = await getRequest(`https://nhentai.net/category/doujinshi/popular?page=${pageNum}`);
     let rrArr = [];
@@ -150,7 +139,7 @@ async function getPopularbyPage ( pageNum = 1 ){
     $('div[class="container index-container"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
-            index: i,
+            index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
             coverScr: $(e).children().attr('data-src')
@@ -160,7 +149,25 @@ async function getPopularbyPage ( pageNum = 1 ){
     return rrArr;
 }
 
-async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1, popularity = 0  ){
+async function getPopularMangabyPage ( pageNum = 1 ){
+
+    let $ = await getRequest(`https://nhentai.net/category/manga/popular?page=${pageNum}`);
+    let rrArr = [];
+
+    $('div[class="container index-container"] .gallery a')
+    .each( (i,e) => {
+        rrArr.push({
+            index: i + 1,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src')
+        })
+    });
+
+    return rrArr;
+}
+
+async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1  ){
 
     let $ = await getRequest(`https://nhentai.net/artist/${artistName}/?page=${pageNumb}`);
     let rrArr = [];
@@ -168,7 +175,7 @@ async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1, popula
     $('div[class="container index-container"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
-            index: i,
+            index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
             coverScr: $(e).children().attr('data-src')
@@ -178,7 +185,7 @@ async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1, popula
     return rrArr;
 }
 
-async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1, popularity = 0  ){
+async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1 ){
 
     let $ = await getRequest(`https://nhentai.net/tag/${tagName}/?page=${pageNumb}`);
     let rrArr = [];
@@ -186,7 +193,7 @@ async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1, populari
     $('div[class="container index-container"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
-            index: i,
+            index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
             coverScr: $(e).children().attr('data-src')
@@ -196,15 +203,15 @@ async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1, populari
     return rrArr;
 }
 
-async function getDoujinsByLang ( lang = "english", pageNumb = 1, popularity = 0  ){
+async function getDoujinsByLang ( lang = "english", pageNumb = 1 ){
 
-    let $ = await getRequest(`https://nhentai.net/language/${lang}/${setPopularity(popularity)}?page=${pageNumb}`);
+    let $ = await getRequest(`https://nhentai.net/language/${lang}/?page=${pageNumb}`);
     let rrArr = [];
 
     $('div[class="container index-container"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
-            index: i,
+            index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
             coverScr: $(e).children().attr('data-src'),
@@ -214,7 +221,7 @@ async function getDoujinsByLang ( lang = "english", pageNumb = 1, popularity = 0
     return rrArr;
 }
 
-async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1, popularity = 0 ){
+async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1 ){
 
     let $ = await getRequest(`https://nhentai.net/group/${group}/?page=${pageNumb}`);
     let rrArr = [];
@@ -222,7 +229,7 @@ async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1, popularity
     $('div[class="container index-container"] .gallery a')
     .each( (i,e) => {
         rrArr.push({
-            index: i,
+            index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
             coverScr: $(e).children().attr('data-src')
