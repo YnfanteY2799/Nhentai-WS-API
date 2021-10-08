@@ -64,7 +64,6 @@ async function getDoujinObj (  link = "" ){
 
     // Tiles - final
     $('.thumbs div.thumb-container a').each( ( x , e ) =>{ 
-        console.log(x);
         tiles.push({
             tileIndex: x + 1,
             linkTo: $(e).attr('href'),
