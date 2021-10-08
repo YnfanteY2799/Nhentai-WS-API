@@ -1,16 +1,15 @@
 {
-  "name": "nhentai-api",
+  "name": "nhentai-websrcrapping-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Api for Nhentai, it's made with WebScraping, so when the Page Design chages this API will too ( i'mean i'll update it ), this was build with Cheerio, Node Js, Request and Request-Promise.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["nhentai", "api", "webscraping", "async"],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.22.0",
     "cheerio": "^1.0.0-rc.10",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"

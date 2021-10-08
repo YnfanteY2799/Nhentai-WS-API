@@ -1,7 +1,6 @@
 const cheerio = require('cheerio');
 const request = require('request-promise');
 
-// Generic Methods
 async function getRequest ( uri = "" ){
     try{
         return await request({
@@ -250,3 +249,18 @@ async function getDoujinDownloadLink( code = 177013 ){
        totalPages: totalAmmountPages,
     };
 }
+
+
+module.exports = {
+    getCodedDoujin,
+    getRandomCode,
+    getMainPageContentPopular,
+    getMainPageContentNoPopular,
+    getPopularDoujinshibyPage,
+    getPopularMangabyPage,
+    getDoujinsByArtist,
+    getDoujinsByTag,
+    getDoujinsByLang,
+    getDoujinsByGroup,
+    getDoujinDownloadLink
+};
