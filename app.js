@@ -249,6 +249,39 @@ async function getDoujinDownloadLink( code = 177013 ){
     };
 }
 
+async function getSectionedMainPage (){
+
+    let response = {};
+    let popArr = [];
+    let noPopArr = [];
+    let $ = await getRequest(`https://nhentai.net/`);
+
+    $('div[class="container index-container index-popular"] .gallery a')
+    .each( (i,e) => {
+        popArr.push({
+            index: i,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src')
+        })
+    });
+
+    $('div[class="container index-container"] .gallery a')
+    .each( (i,e) => {
+        noPopArr.push({
+            index: i + 5,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src')
+        })
+    });
+
+    response["popular"] = popArr;
+    response["noPopular"] = noPopArr;
+
+    return response;
+}
+
 
 module.exports = {
     getCodedDoujin,
