@@ -1,18 +1,21 @@
 const cheerio = require('cheerio');
 const request = require('request-promise');
 
-async function getRequest ( uri = "" ){
+async function getRequest ( uri = "", callingMethod = 'no method' ){
     try{
         return await request({
             uri:uri,
             transform: b => cheerio.load(b),
         });
     }catch(e){
-        throw Error("Page does Not Exist or Something else happened check the page link, Check Doujin Code from URL : " + uri);
+        throw Error(
+            `Page does Not Exist or Something else happened check the page link, Check Doujin Code from URL : ` 
+            + uri + "\n" + " Check the method call at : " + callingMethod
+        );
     }
 }
 
-async function getDoujinObj (  link = "" ){
+async function getDoujinObj (  link = "", methodName = "getDoujinObj" ){
 
     let response = {};
     let tiles = [];
@@ -24,7 +27,7 @@ async function getDoujinObj (  link = "" ){
     let languague = [];
     let categories = [];
     
-    let $ = await getRequest(link);
+    let $ = await getRequest( link, methodName );
 
     // Parodies - 0
 
@@ -86,16 +89,16 @@ async function getDoujinObj (  link = "" ){
 }
 
 async function getCodedDoujin ( doujinNum = '000000' ){
-    return getDoujinObj(`https://nhentai.net/g/${( doujinNum | 0 )}/`);
+    return getDoujinObj(`https://nhentai.net/g/${( doujinNum | 0 )}/`, "getCodedDoujin");
 }
 
 async function getRandomCode (){
-    return getDoujinObj(`https://nhentai.net/random/`);
+    return getDoujinObj(`https://nhentai.net/random/`, "getRandomCode");
 }
 
 async function getMainPageContentPopular (){
 
-    let $ = await getRequest(`https://nhentai.net/`);
+    let $ = await getRequest(`https://nhentai.net/`,"getMainPageContentPopular");
     let rrArr = [];
 
     $('div[class="container index-container index-popular"] .gallery a')
@@ -104,7 +107,8 @@ async function getMainPageContentPopular (){
             index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
         })
     });
 
@@ -113,97 +117,7 @@ async function getMainPageContentPopular (){
 
 async function getMainPageContentNoPopular (){
 
-    let $ = await getRequest(`https://nhentai.net/`);
-    let rrArr = [];
-
-    $('div[class="container index-container"] .gallery a')
-    .each( (i,e) => {
-        rrArr.push({
-            index: i + 1,
-            name: $(e).text().split("/>")[1],
-            link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
-        })
-    });
-
-    return rrArr;
-}
-
-async function getPopularDoujinshibyPage ( pageNum = 1 ){
-
-    let $ = await getRequest(`https://nhentai.net/category/doujinshi/popular?page=${pageNum}`);
-    let rrArr = [];
-
-    $('div[class="container index-container"] .gallery a')
-    .each( (i,e) => {
-        rrArr.push({
-            index: i + 1,
-            name: $(e).text().split("/>")[1],
-            link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
-        })
-    });
-
-    return rrArr;
-}
-
-async function getPopularMangabyPage ( pageNum = 1 ){
-
-    let $ = await getRequest(`https://nhentai.net/category/manga/popular?page=${pageNum}`);
-    let rrArr = [];
-
-    $('div[class="container index-container"] .gallery a')
-    .each( (i,e) => {
-        rrArr.push({
-            index: i + 1,
-            name: $(e).text().split("/>")[1],
-            link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
-        })
-    });
-
-    return rrArr;
-}
-
-async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1  ){
-
-    let $ = await getRequest(`https://nhentai.net/artist/${artistName}/?page=${pageNumb}`);
-    let rrArr = [];
-
-    $('div[class="container index-container"] .gallery a')
-    .each( (i,e) => {
-        rrArr.push({
-            index: i + 1,
-            name: $(e).text().split("/>")[1],
-            link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
-        })
-    });
-
-    return rrArr;
-}
-
-async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1 ){
-
-    let $ = await getRequest(`https://nhentai.net/tag/${tagName}/?page=${pageNumb}`);
-    let rrArr = [];
-
-    $('div[class="container index-container"] .gallery a')
-    .each( (i,e) => {
-        rrArr.push({
-            index: i + 1,
-            name: $(e).text().split("/>")[1],
-            link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
-        })
-    });
-
-    return rrArr;
-}
-
-async function getDoujinsByLang ( lang = "english", pageNumb = 1 ){
-
-    let $ = await getRequest(`https://nhentai.net/language/${lang}/?page=${pageNumb}`);
+    let $ = await getRequest(`https://nhentai.net/`, "getMainPageContentNoPopular");
     let rrArr = [];
 
     $('div[class="container index-container"] .gallery a')
@@ -213,15 +127,20 @@ async function getDoujinsByLang ( lang = "english", pageNumb = 1 ){
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
             coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
         })
     });
 
     return rrArr;
 }
 
-async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1 ){
+async function getPopularDoujinshibyPage ( pageNum = 1 ){
 
-    let $ = await getRequest(`https://nhentai.net/group/${group}/?page=${pageNumb}`);
+    let $ = await getRequest(
+        `https://nhentai.net/category/doujinshi/popular?page=${pageNum}`, 
+        "getPopularDoujinshibyPage"
+    );
+
     let rrArr = [];
 
     $('div[class="container index-container"] .gallery a')
@@ -230,7 +149,103 @@ async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1 ){
             index: i + 1,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
+        })
+    });
+
+    return rrArr;
+}
+
+async function getPopularMangabyPage ( pageNum = 1 ){
+
+    let $ = await getRequest(`https://nhentai.net/category/manga/popular?page=${pageNum}`, "getPopularMangabyPage");
+    let rrArr = [];
+
+    $('div[class="container index-container"] .gallery a')
+    .each( (i,e) => {
+        rrArr.push({
+            index: i + 1,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
+        })
+    });
+
+    return rrArr;
+}
+
+async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1  ){
+
+    let $ = await getRequest(`https://nhentai.net/artist/${artistName}/?page=${pageNumb}`, "getDoujinsByArtist");
+    let rrArr = [];
+
+    $('div[class="container index-container"] .gallery a')
+    .each( (i,e) => {
+        rrArr.push({
+            index: i + 1,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
+        })
+    });
+
+    return rrArr;
+}
+
+async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1 ){
+
+    let $ = await getRequest(`https://nhentai.net/tag/${tagName}/?page=${pageNumb}`, "getDoujinsByTag");
+    let rrArr = [];
+
+    $('div[class="container index-container"] .gallery a')
+    .each( (i,e) => {
+        rrArr.push({
+            index: i + 1,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
+        })
+    });
+
+    return rrArr;
+}
+
+async function getDoujinsByLang ( lang = "english", pageNumb = 1 ){
+
+    let $ = await getRequest(`https://nhentai.net/language/${lang}/?page=${pageNumb}`, "getDoujinsByLang");
+    let rrArr = [];
+
+    $('div[class="container index-container"] .gallery a')
+    .each( (i,e) => {
+        rrArr.push({
+            index: i + 1,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
+        })
+    });
+
+    return rrArr;
+}
+
+async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1 ){
+
+    let $ = await getRequest(`https://nhentai.net/group/${group}/?page=${pageNumb}`, "getDoujinsByGroup");
+    let rrArr = [];
+
+    $('div[class="container index-container"] .gallery a')
+    .each( (i,e) => {
+        rrArr.push({
+            index: i + 1,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
         })
     });
 
@@ -238,7 +253,7 @@ async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1 ){
 }
 
 async function getDoujinDownloadLink( code = 177013 ){
-    let $ = await getRequest(`https://nhentai.net/g/${ (code|0) }/`);
+    let $ = await getRequest(`https://nhentai.net/g/${ (code|0) }/`, "getDoujinDownloadLink");
     let totalAmmountPages = $('.thumbs div.thumb-container a').length;
     let newLink = "https://nhentai.net" + $('.thumbs div.thumb-container a').attr('href');
     $ = await getRequest(newLink);
@@ -254,7 +269,7 @@ async function getSectionedMainPage (){
     let response = {};
     let popArr = [];
     let noPopArr = [];
-    let $ = await getRequest(`https://nhentai.net/`);
+    let $ = await getRequest(`https://nhentai.net/`, "getSectionedMainPage");
 
     $('div[class="container index-container index-popular"] .gallery a')
     .each( (i,e) => {
@@ -262,7 +277,9 @@ async function getSectionedMainPage (){
             index: i,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split(),
+            code:$(e).attr('href').split("/")[2],
         })
     });
 
@@ -272,7 +289,8 @@ async function getSectionedMainPage (){
             index: i + 5,
             name: $(e).text().split("/>")[1],
             link: $(e).attr('href'),
-            coverScr: $(e).children().attr('data-src')
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
         })
     });
 
@@ -282,8 +300,59 @@ async function getSectionedMainPage (){
     return response;
 }
 
+async function getDoujinTags( code = "000000" ){
+
+    let resp = [];
+
+    let $ = await getRequest(`https://nhentai.net/g/${code}/`, "getDoujinTags");
+
+    $('#info-block section#tags div ').eq(2).children().children()
+    .children('.name').each((i,e) => resp.push( $(e).eq(0).text() ));
+
+    return resp;
+
+}
+
+async function indexedPage(index){
+    let arr = [];
+
+    let $ = await getRequest(`https://nhentai.net/?page=${index}`, "indexedPage");
+
+    $('div[class="container index-container"] .gallery a')
+    .each((i,e) => {
+        arr.push({
+            index: i + 1,
+            name: $(e).text().split("/>")[1],
+            link: $(e).attr('href'),
+            coverScr: $(e).children().attr('data-src'),
+            code:$(e).attr('href').split("/")[2],
+        })
+    });
+
+
+    
+    return arr;
+}
+
+async function getMainPageDoujinsPerIndex(index = 5){
+
+    let rrs = [];
+
+    let i = 0;
+    while(i < index){
+
+        let rr = await indexedPage(i + 1);
+        rrs = [...rrs,rr];
+        
+        i++;
+    }
+
+    return rrs;
+}
+
 
 module.exports = {
+    
     getCodedDoujin,
     getRandomCode,
     getMainPageContentPopular,
@@ -292,7 +361,12 @@ module.exports = {
     getPopularMangabyPage,
     getDoujinsByArtist,
     getDoujinsByTag,
-    getDoujinsByLang,
+    getDoujinsByLang, 
     getDoujinsByGroup,
-    getDoujinDownloadLink
+    getDoujinDownloadLink,
+    getSectionedMainPage,
+    getDoujinTags,
+    indexedPage,
+    getMainPageDoujinsPerIndex,
+    
 };
