@@ -1,5 +1,5 @@
-import cheerio from 'cheerio';
-import got from 'got';
+const cheerio = require('cheerio');
+const got = require('got');
 
 async function getRequest ( uri = "", callingMethod = 'no method' ){
     try{
@@ -96,15 +96,15 @@ async function getDoujinObj (  link = "", methodName = "getDoujinObj" ){
     return response;
 }
 
-export async function getCodedDoujin ( doujinNum = '000000' ){
+async function getCodedDoujin ( doujinNum = '000000' ){
     return getDoujinObj(`https://nhentai.net/g/${( doujinNum | 0 )}/`, "getCodedDoujin");
 }
 
-export async function getRandomCode (){
+async function getRandomCode (){
     return getDoujinObj(`https://nhentai.net/random/`, "getRandomCode");
 }
 
-export async function getMainPageContentPopular (){
+async function getMainPageContentPopular (){
 
     let $ = await getRequest(`https://nhentai.net/`,"getMainPageContentPopular");
     let rrArr = [];
@@ -123,7 +123,7 @@ export async function getMainPageContentPopular (){
     return rrArr;
 }
 
-export async function getMainPageContentNoPopular (){
+async function getMainPageContentNoPopular (){
 
     let $ = await getRequest(`https://nhentai.net/`, "getMainPageContentNoPopular");
     let rrArr = [];
@@ -142,7 +142,7 @@ export async function getMainPageContentNoPopular (){
     return rrArr;
 }
 
-export async function getPopularDoujinshibyPage ( pageNum = 1 ){
+async function getPopularDoujinshibyPage ( pageNum = 1 ){
 
     let $ = await getRequest(
         `https://nhentai.net/category/doujinshi/popular?page=${pageNum}`, 
@@ -165,7 +165,7 @@ export async function getPopularDoujinshibyPage ( pageNum = 1 ){
     return rrArr;
 }
 
-export async function getPopularMangabyPage ( pageNum = 1 ){
+async function getPopularMangabyPage ( pageNum = 1 ){
 
     let $ = await getRequest(`https://nhentai.net/category/manga/popular?page=${pageNum}`, "getPopularMangabyPage");
     let rrArr = [];
@@ -184,7 +184,7 @@ export async function getPopularMangabyPage ( pageNum = 1 ){
     return rrArr;
 }
 
-export async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1  ){
+async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1  ){
 
     let $ = await getRequest(`https://nhentai.net/artist/${artistName}/?page=${pageNumb}`, "getDoujinsByArtist");
     let rrArr = [];
@@ -203,7 +203,7 @@ export async function getDoujinsByArtist ( artistName = "shindol", pageNumb = 1 
     return rrArr;
 }
 
-export async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1 ){
+async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1 ){
 
     let $ = await getRequest(`https://nhentai.net/tag/${tagName}/?page=${pageNumb}`, "getDoujinsByTag");
     let rrArr = [];
@@ -222,7 +222,7 @@ export async function getDoujinsByTag ( tagName = "big-breasts", pageNumb = 1 ){
     return rrArr;
 }
 
-export async function getDoujinsByLang ( lang = "english", pageNumb = 1 ){
+async function getDoujinsByLang ( lang = "english", pageNumb = 1 ){
 
     let $ = await getRequest(`https://nhentai.net/language/${lang}/?page=${pageNumb}`, "getDoujinsByLang");
     let rrArr = [];
@@ -241,7 +241,7 @@ export async function getDoujinsByLang ( lang = "english", pageNumb = 1 ){
     return rrArr;
 }
 
-export async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1 ){
+async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1 ){
 
     let $ = await getRequest(`https://nhentai.net/group/${group}/?page=${pageNumb}`, "getDoujinsByGroup");
     let rrArr = [];
@@ -260,7 +260,7 @@ export async function getDoujinsByGroup ( group = "da-hootch", pageNumb = 1 ){
     return rrArr;
 }
 
-export async function getDoujinDownloadLink( code = 177013 ){
+async function getDoujinDownloadLink( code = 177013 ){
     let $ = await getRequest(`https://nhentai.net/g/${ (code|0) }/`, "getDoujinDownloadLink");
     let totalAmmountPages = $('.thumbs div.thumb-container a').length;
     let newLink = "https://nhentai.net" + $('.thumbs div.thumb-container a').attr('href');
@@ -272,7 +272,7 @@ export async function getDoujinDownloadLink( code = 177013 ){
     };
 }
 
-export async function getSectionedMainPage (){
+async function getSectionedMainPage (){
 
     let response = {};
     let popArr = [];
@@ -308,7 +308,7 @@ export async function getSectionedMainPage (){
     return response;
 }
 
-export async function getDoujinTags( code = "000000" ){
+async function getDoujinTags( code = "000000" ){
 
     let resp = [];
 
@@ -321,7 +321,7 @@ export async function getDoujinTags( code = "000000" ){
 
 }
 
-export async function getIndexPage(index = 0){
+async function getIndexPage(index = 0){
     let arr = [];
 
     let $ = await getRequest(`https://nhentai.net/?page=${index}`, "getIndexPage");
@@ -342,7 +342,7 @@ export async function getIndexPage(index = 0){
     return arr;
 }
 
-export async function getMainPageDoujinsPerIndex(index = 5){
+async function getMainPageDoujinsPerIndex(index = 5){
 
     let rrs = [];
 
@@ -358,7 +358,7 @@ export async function getMainPageDoujinsPerIndex(index = 5){
     return rrs;
 }
 
-export async function getSimpelSearch(keyWord = ""){
+async function getSimpelSearch(keyWord = ""){
 
     let arr = [];
 
@@ -378,6 +378,43 @@ export async function getSimpelSearch(keyWord = ""){
     return arr;
 }
 
+
+// async function download(dcode,uri){
+ 
+//     await fs.mkdir(`${dcode}/`, (e) => {});
+//     return new Promise((ex, er) => {
+//         Https.get(uri, async (res) => {
+            
+//             if(res.statusCode === 200){
+//                 const fls = fs.createWriteStream(`${dcode}/${path.basename(uri)}`);
+//                 res.pipe(fls)
+//                 .on('error', er)
+//                 .once('close',() => ex(uri));
+//                 ;
+//             }
+//         })
+//     })
+
+// }
+
+
+// async function downloadDoujin(){
+
+//     let { totalPages, uri } = await getDoujinDownloadLink(376398);
+
+//     console.log(totalPages)
+
+//     for(let i = 0; i < totalPages; i++){
+//         await download(376398,uri.replace("1.jpg", `${i + 1}.jpg`));
+
+//     }
+    
+
+// }
+
+// downloadDoujin()
+
+// export default NhenApi;
 
 const NhenApi = {
 
@@ -400,4 +437,24 @@ const NhenApi = {
 
 };
 
-export default NhenApi;
+module.exports = {
+
+    NhenApi,
+    getCodedDoujin,
+    getRandomCode,
+    getMainPageContentPopular,
+    getMainPageContentNoPopular,
+    getPopularDoujinshibyPage,
+    getPopularMangabyPage,
+    getDoujinsByArtist,
+    getDoujinsByTag,
+    getDoujinsByLang, 
+    getDoujinsByGroup,
+    getDoujinDownloadLink,
+    getSectionedMainPage,
+    getDoujinTags,
+    getIndexPage,
+    getMainPageDoujinsPerIndex,
+    getSimpelSearch
+
+};
