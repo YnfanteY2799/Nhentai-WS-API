@@ -2,7 +2,7 @@
   "name": "nhentai-websrcrapping-api",
   "version": "1.0.4",
   "description": "Api for Nhentai, it's made with WebScraping, so when the Page Design chages this API will too ( i'mean i'll update it ), this was build with Cheerio, Node Js, Request and Request-Promise.",
-  "main": "source/app.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
