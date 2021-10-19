@@ -2,32 +2,47 @@
 
 Description: 
 Api for Nhentai, it's made with WebScraping, so when the Page Design chages this API will too ( i'mean i'll update it ),
-this was build with Cheerio, Node Js, Request and Request-Promise. 
+this was build with Cheerio, Node Js and Got. 
 
-Status: Ready to implement ( Not published yet )
+Status: Ready to implement ( Published to NPM )
 
-#Working ( Ready to Use ) Methods:
+#Working Methods :
+- GetRequest : { Internally }
+- GetDoujinObj : { Internally }
+- GetCodedDoujin : { Exported }
+- GetRandomCode : { Exported }
+- GetDoujinsByArtist : { Exported }
+- GetMainPageContentPopular : { Exported }
+- GetMainPageContentNoPopular : { Exported }
+- GetPopularDoujinshibyPage : { Exported }
+- GetPopularMangabyPage : { Exported }
+- GetDoujinsByArtist : { Exported }
+- GetDoujinsByTag : { Exported }
+- GetDoujinsByLang : { Exported }
+- GetDoujinsByGroups : { Exported }
+- GetDoujinDownloadLink : { Exported }
+- GetSectionedMainPage : { Exported }
+- GetDoujinTags : { Exported }
+- GetIndexPage : { Exported }
+- GetMainPageDoujinsPerIndex : { Exported }
+- GetSimpelSearch : { Exported }
 
-- Get Last Uploaded Mangas : { getMainPageContentNoPopular }
-- Get Popular Mangas of the time : { getMainPageContentPopular }
-- Get all time popular doujins : { getAllTimePopular } 
-- Get any page Request like a Cheerio Obj, using this methods require Cheerio lib Knowledge : { GetRequest }
-- This is a function that get the especified Doujin Data as an Object, it accepts a string ( link ) as a input ( Specified by nhentai codes ) : { GetDoujinObj }
-- As it says it's just getting a random Code Data, this method does not accepts input : { GetRandomCode }
-- This method gives you the doujins by artist, it accepts a string ( artist name ) and a number (page numb) ( it only gives 25 per page ) : { GetDoujinsByArtist }
-- This method gives you the doujins by tag, it accepts a string ( tag name ) and a number (page numb) ( it only gives 25 per page ) : { GetDoujinsByTag }
-- This method gives you the doujins by lang, it accepts a string ( lang name ) and a number (page numb) ( it only gives 25 per page ) : { GetDoujinsByLang }
-- This method gives you the doujins by group, it accepts a string ( group name ) and a number (page numb) ( it only gives 25 per page ) : { GetDoujinsByGroup }
-- This method allows you to get Doujin bare first page download link, and total doujin pages, it accepts a string/number as a input : { GetDoujinDownloadLink }
-- This method gives you the page of popular Doujins by page, it accepts a number as a input (page numb) : { getPopularDoujinshibyPage }
-- This method gives you the page of popular Manga by page, it accepts a number as a input (page numb) : { getPopularMangabyPage }
+#Extended Method Documentation OTG ( On the Go )
 
+#Internally:
+This means methods that are not mean to be used externally from the main API file ( Index.js ).
+
+#Exported : 
+This means methods that are mean to be used externally from the main API file ( Index.js ).
+
+##############################################################
 NOTES:
 
-All methods are Async due to obvious reasons
+All methods are Async due to **obvious reasons
+(The methods are async due to the need of waiting for the fetch to give a response).
 
-######################################
-#   ANY ISSUES PLEASE CONTACT ME     #
-######################################
 
-#NodeJs #Cheerio #API #WebScrapping
+
+-Any Issues Feel Free to report the issue!
+
+#NodeJs #Cheerio #API #Got #WebScrapping
