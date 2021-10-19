@@ -6,7 +6,7 @@ this was build with Cheerio, Node Js and Got.
 
 Status: Ready to implement ( Published to NPM )
 
-#Working Methods :
+### Working Methods :
 - GetRequest : { Internally }
 - GetDoujinObj : { Internally }
 - GetCodedDoujin : { Exported }
@@ -27,16 +27,15 @@ Status: Ready to implement ( Published to NPM )
 - GetMainPageDoujinsPerIndex : { Exported }
 - GetSimpelSearch : { Exported }
 
-#Extended Method Documentation OTG ( On the Go )
+## Extended Method Documentation OTG ( On the Go )
 
-#Internally:
+## Internally:
 This means methods that are not mean to be used externally from the main API file ( Index.js ).
 
-#Exported : 
+## Exported : 
 This means methods that are mean to be used externally from the main API file ( Index.js ).
 
-##############################################################
-NOTES:
+## NOTES:
 
 All methods are Async due to **obvious reasons
 (The methods are async due to the need of waiting for the fetch to give a response).
