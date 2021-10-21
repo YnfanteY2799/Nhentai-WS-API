@@ -6,11 +6,28 @@ this was build with Cheerio, Node Js and Got.
 
 Status: Ready to implement ( Published to NPM )
 
-### Working Methods :
-- GetRequest : { Internally }
-- GetDoujinObj : { Internally }
-- GetCodedDoujin : { Exported }
-- GetRandomCode : { Exported }
+# Working Methods :
+
+- ### GetCodedDoujin : { Exported }
+This methods looks for a Doujin based on Code
+
+```js
+
+import { getCodedDoujin } = require("nhentai-websrcrapping-api");
+
+getCodedDoujin(303155).then(responseObject => responseObject);
+
+```
+
+- ### GetRandomCode : { Exported }
+
+```js
+import { getRandomDoujin } = require("nhentai-websrcrapping-api");
+
+getRandomDoujin().then(responseObject => responseObject);
+
+```
+
 - GetDoujinsByArtist : { Exported }
 - GetMainPageContentPopular : { Exported }
 - GetMainPageContentNoPopular : { Exported }
@@ -26,6 +43,15 @@ Status: Ready to implement ( Published to NPM )
 - GetIndexPage : { Exported }
 - GetMainPageDoujinsPerIndex : { Exported }
 - GetSimpelSearch : { Exported }
+- GetRequest : { Internally }
+- GetDoujinObj : { Internally }
+
+## Upcoming features
+- OOP-like class ( Working-on )
+- Function for downloading doujins 
+- Function for downloading doujins ( Array-like ) 
+- Add tags to Searchlike methods (i've already done that but this makes methods too slow, i'm actually testing some alternatives to this issue )
+- Deno version of lib, and future CLI ( Made with Rust )
 
 ## Extended Method Documentation OTG ( On the Go )
 
