@@ -1,14 +1,15 @@
 # Nhentai-WS-API
 
-Description: 
+Description:
 Api for Nhentai, it's made with WebScraping, so when the Page Design chages this API will too ( i'mean i'll update it ),
-this was build with Cheerio, Node Js and Got. 
+this was build with Cheerio, Node Js and Got.
 
 Status: Ready to implement ( Published to NPM )
 
-# Working Methods :
+# Working Methods
 
 - ### GetCodedDoujin : { Exported }
+
 This methods looks for a Doujin based on Code
 
 ```js
@@ -46,28 +47,33 @@ getRandomDoujin().then(responseObject => responseObject);
 - GetRequest : { Internally }
 - GetDoujinObj : { Internally }
 
+- ## Working Class
+
+    NhentaiBook
+    class with only one getter , one setter, and a full deatils method, constructor accepts Doujin code String or Num -- Feel Free to use it how ever you like.
+
 ## Upcoming features
-- OOP-like class ( Working-on )
-- Function for downloading doujins 
-- Function for downloading doujins ( Array-like ) 
+
+- Function for downloading doujins.
+- Function for downloading doujins ( Array-like ).
 - Add tags to Searchlike methods (i've already done that but this makes methods too slow, i'm actually testing some alternatives to this issue )
 - Deno version of lib, and future CLI ( Made with Rust )
 
 ## Extended Method Documentation OTG ( On the Go )
 
-## Internally:
+## Internally
+
 This means methods that are not mean to be used externally from the main API file ( Index.js ).
 
-## Exported : 
+## Exported
+
 This means methods that are mean to be used externally from the main API file ( Index.js ).
 
-## NOTES:
+## NOTES
 
 All methods are Async due to **obvious reasons
 (The methods are async due to the need of waiting for the fetch to give a response).
 
-
-
 -Any Issues Feel Free to report the issue!
 
-#NodeJs #Cheerio #API #Got #WebScrapping
+# NodeJs #Cheerio #API #Got #WebScrapping
