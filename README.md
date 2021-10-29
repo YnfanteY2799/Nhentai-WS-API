@@ -16,7 +16,7 @@ This methods looks for a Doujin based on Code
 
 import { getCodedDoujin } = require("nhentai-websrcrapping-api");
 
-getCodedDoujin(303155).then(responseObject => responseObject);
+getCodedDoujin(303155 || '177013').then(responseObject => responseObject);
 
 ```
 
@@ -30,11 +30,26 @@ getRandomDoujin().then(responseObject => responseObject);
 ```
 
 - GetDoujinsByArtist : { Exported }
+
+```js
+import { getDoujinsByArtist } = require("nhentai-websrcrapping-api");
+
+getDoujinsByArtist("Shindol").then(responseObject => responseObject );
+
+```
+
 - GetMainPageContentPopular : { Exported }
+
+```js
+import { getMainPageContentPopular } = require("nhentai-websrcrapping-api");
+
+getMainPageContentPopular().then(responseObject => responseObject.map(x => console.log(x)) );
+
+```
+
 - GetMainPageContentNoPopular : { Exported }
 - GetPopularDoujinshibyPage : { Exported }
 - GetPopularMangabyPage : { Exported }
-- GetDoujinsByArtist : { Exported }
 - GetDoujinsByTag : { Exported }
 - GetDoujinsByLang : { Exported }
 - GetDoujinsByGroups : { Exported }
