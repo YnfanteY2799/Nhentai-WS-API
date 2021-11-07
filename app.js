@@ -382,12 +382,31 @@ async function getSimpelSearch(keyWord = ""){
 
 // Working - on
 async function justDownloadDoujin(code = "379261"){
-    const $ = getRequest(`https://nhentai.net/g/${(code | 0)}/1/`);
+    
+    const $ = await getRequest(`https://nhentai.net/g/${(code | 0)}/1/`, "Download Method!");
+    
+    const totalPagesAvailable = ($('.num-pages').html().toString() | 0);
+    let initialPage = 1;
+    let respArr = [];
 
-    $('img')
+    while(initialPage <= totalPagesAvailable){
 
+        const $$ = await getRequest(`https://nhentai.net/g/${(code | 0)}/${initialPage}/`, "Download Method!");
+
+        respArr = [...respArr , $$('#image-container a img').attr('src')];
+        initialPage++;
+    }
+
+
+
+    console.log(respArr);
+    
 
 }
+
+
+justDownloadDoujin(208797);//.then(x => )
+
 
 class NhentaiBook{
     constructor(code){
