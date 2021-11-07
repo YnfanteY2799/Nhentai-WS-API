@@ -380,6 +380,15 @@ async function getSimpelSearch(keyWord = ""){
     return arr;
 }
 
+// Working - on
+async function justDownloadDoujin(code = "379261"){
+    const $ = getRequest(`https://nhentai.net/g/${(code | 0)}/1/`);
+
+    $('img')
+
+
+}
+
 class NhentaiBook{
     constructor(code){
         this.code = ( code | 0 );
@@ -503,7 +512,7 @@ const NhenApi = {
     getSectionedMainPage,
     getDoujinTags,
     getIndexPage,
-    getMainPageDoujinsPerIndex,
+    // getMainPageDoujinsPerIndex,
     getSimpelSearch
 
 };
@@ -527,7 +536,7 @@ module.exports = {
     getSectionedMainPage,
     getDoujinTags,
     getIndexPage,
-    getMainPageDoujinsPerIndex,
+    // getMainPageDoujinsPerIndex,
     getSimpelSearch
 
 };
