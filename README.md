@@ -6,11 +6,11 @@ this was build with Cheerio, Node Js and Got.
 
 Status: Ready to implement ( Published to NPM )
 
-# Working Methods
+## Working Methods
 
 - ### GetCodedDoujin : { Exported }
 
-This methods looks for a Doujin based on Code
+This methods looks for a Doujin based on Code, on version 1.0.8, the speed of method has drastically changed due to bugfix of bad download links this was happening due to me hardcoding ".jpg" at the image sources, this was fixed.
 
 ```js
 
@@ -59,6 +59,25 @@ getMainPageContentPopular().then(responseObject => responseObject.map(x => conso
 - GetIndexPage : { Exported }
 - GetMainPageDoujinsPerIndex : { Exported }
 - GetSimpelSearch : { Exported }
+
+- GetDoujinDownloadLinks : { Exported }
+
+```js
+import { getDoujinDownloadLinks } = require("nhentai-websrcrapping-api");
+
+getDoujinDownloadLinks().then(responseObject => responseObject.map(x => console.log(x)) );
+
+```
+
+- DownloadDoujin : { Exported }
+
+```js
+import { downloadDoujin } = require("nhentai-websrcrapping-api");
+// downloadDoujin(/*Doujin Code*/, /*Doujin route*/);
+downloadDoujin(1707013, "C:\\");
+
+```
+
 - GetRequest : { Internally }
 - GetDoujinObj : { Internally }
 
@@ -91,4 +110,4 @@ All methods are Async due to **obvious reasons
 
 -Any Issues Feel Free to report the issue!
 
-# NodeJs #Cheerio #API #Got #WebScrapping
+### NodeJs #Cheerio #API #Got #WebScrapping

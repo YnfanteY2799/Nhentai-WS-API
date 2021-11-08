@@ -1,5 +1,7 @@
 const cheerio = require('cheerio');
 const got = require('got');
+const fs = require('fs');
+const { get } = require('https');
 
 async function getRequest ( uri = "", callingMethod = 'no method' ){
     try{
@@ -18,6 +20,8 @@ async function getRequest ( uri = "", callingMethod = 'no method' ){
 
 async function getDoujinObj (  link = "", methodName = "getDoujinObj" ){
 
+
+    const code = link.split("/")[4];
     let response = {};
     let tiles = [];
     let ogImageDownloadLinks = [];
@@ -77,11 +81,8 @@ async function getDoujinObj (  link = "", methodName = "getDoujinObj" ){
     });
 
     // ogImageDownloadLink - final
-    for(let i = 0; i < tiles.length; i++){
-        ogImageDownloadLinks.push(
-            `https://i.nhentai.net/galleries/${$('.thumbs div.thumb-container a').eq(0).text().split("/")[4]}/${i + 1}.jpg`
-        );
-    }
+    ogImageDownloadLinks = await getDoujinDownloadLinks(code);
+
 
     response["name"] = $('#info-block .title').text().replace("/>","");
     response["code"] = $('#info-block h3').text();
@@ -99,7 +100,7 @@ async function getDoujinObj (  link = "", methodName = "getDoujinObj" ){
 }
 
 async function getCodedDoujin ( doujinNum = '000000' ){
-    return getDoujinObj(`https://nhentai.net/g/${( doujinNum | 0 )}/`, "getCodedDoujin");
+    return getDoujinObj(`https://nhentai.net/g/${( doujinNum | 0 )}/`, "getCodedDoujin" );
 }
 
 async function getRandomCode (){
@@ -351,7 +352,7 @@ async function getMainPageDoujinsPerIndex(index = 5){
     let i = 0;
     while(i < index){
 
-        let rr = await indexedPage(i + 1);
+        let rr = await getIndexPage(i + 1);
         rrs = [...rrs,rr];
         
         i++;
@@ -380,32 +381,61 @@ async function getSimpelSearch(keyWord = ""){
     return arr;
 }
 
-// Working - on
-async function justDownloadDoujin(code = "379261"){
-    
-    const $ = await getRequest(`https://nhentai.net/g/${(code | 0)}/1/`, "Download Method!");
-    
-    const totalPagesAvailable = ($('.num-pages').html().toString() | 0);
+async function getDoujinDownloadLinks(code = "379261", totalPages = 0){
+
+    let $ = null;
+    let totalPagesAvailable = null;
+    if(totalPages === 0){
+        $ = await getRequest(`https://nhentai.net/g/${(code | 0)}/1/`, "getDoujinDownloadLinks");
+        totalPagesAvailable = ($('.num-pages').html().toString() | 0)
+    }else {
+        totalPagesAvailable = totalPages;
+    }
+
     let initialPage = 1;
     let respArr = [];
+    
+    while(initialPage <= totalPagesAvailable){
+        const $$ = await getRequest(`https://nhentai.net/g/${(code | 0)}/${initialPage}/`, "getDoujinDownloadLinks");
+        respArr = [...respArr , $$('#image-container a img').attr('src')];
+        initialPage++;
+    }
 
+    return respArr;
+}
+
+async function downloadDoujin(code = "379261", route = "C:\\"){
+    
+    const $ = await getRequest(`https://nhentai.net/g/${(code | 0)}/1/`, "Download Method!");
+    const totalPagesAvailable = ($('.num-pages').html().toString() | 0);
+    let doujinName = $('head title').text().split(" - ")[0];
+    let initialPage = 1;
+    let respArr = [];
+    let folder = `${route}${doujinName}\\`;
+
+    if(!fs.existsSync(folder)){
+        fs.mkdirSync(folder);
+    } 
+    
     while(initialPage <= totalPagesAvailable){
 
-        const $$ = await getRequest(`https://nhentai.net/g/${(code | 0)}/${initialPage}/`, "Download Method!");
+        const $$ = await getRequest(`https://nhentai.net/g/${(code | 0)}/${initialPage}/`, "Download Method While execution !");
+        let link = $$('#image-container a img').attr('src');
+        let currFIleName = link.split('/')[5];
+        respArr = [...respArr , link];
 
-        respArr = [...respArr , $$('#image-container a img').attr('src')];
+        get(link, (res) => {
+            const fls = fs.createWriteStream(folder + currFIleName);
+            res.pipe(fls);
+            fls.on('error', (error) => console.log(error));
+            fls.on('finish', () => console.log(`Finished With : ${currFIleName}...`));
+        });
         initialPage++;
     }
 
 
 
-    console.log(respArr);
-    
-
 }
-
-
-justDownloadDoujin(208797);//.then(x => )
 
 
 class NhentaiBook{
@@ -490,11 +520,7 @@ class NhentaiBook{
         });
     
         // ogImageDownloadLink - final
-        for(let i = 0; i < tiles.length; i++){
-            ogImageDownloadLinks.push(
-                `https://i.nhentai.net/galleries/${$('.thumbs div.thumb-container a').eq(0).text().split("/")[4]}/${i + 1}.jpg`
-            );
-        }
+        ogImageDownloadLinks = await getDoujinDownloadLinks(code);
     
         response["name"] = $('#info-block .title').text().replace("/>","");
         response["code"] = $('#info-block h3').text();
@@ -514,7 +540,6 @@ class NhentaiBook{
 
 }
 
-
 const NhenApi = {
 
     getCodedDoujin,
@@ -531,8 +556,10 @@ const NhenApi = {
     getSectionedMainPage,
     getDoujinTags,
     getIndexPage,
-    // getMainPageDoujinsPerIndex,
-    getSimpelSearch
+    getMainPageDoujinsPerIndex,
+    getSimpelSearch,
+    getDoujinDownloadLinks,
+    downloadDoujin,
 
 };
 
@@ -555,7 +582,8 @@ module.exports = {
     getSectionedMainPage,
     getDoujinTags,
     getIndexPage,
-    // getMainPageDoujinsPerIndex,
-    getSimpelSearch
-
+    getMainPageDoujinsPerIndex,
+    getSimpelSearch,
+    getDoujinDownloadLinks,
+    downloadDoujin,
 };
