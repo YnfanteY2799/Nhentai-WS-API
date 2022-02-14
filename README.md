@@ -110,4 +110,8 @@ All methods are Async due to **obvious reasons
 
 -Any Issues Feel Free to report the issue!
 
+## Disabled Methods
+
+{ getDoujinDownloadLinks } -> It's disabled on Complex data fetches Due to speed issues, it can be used by itself, but calling Doujin properties wont call it
+
 ### NodeJs #Cheerio #API #Got #WebScrapping
