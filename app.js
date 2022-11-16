@@ -1,132 +1,9 @@
-import cheerio from "cheerio";
 import got from "got";
 import fs from "fs";
 import { get } from "https";
 
-async function getRequest(uri = "", callingMethod = "no method") {
-  try {
-    return cheerio.load((await got(uri)).body);
-  } catch (e) {
-    throw Error(
-      `Page does Not Exist or Something else happened check the page link, Check Doujin Code from URL : ` +
-        uri +
-        "\n" +
-        " Check the method call at : " +
-        callingMethod
-    );
-  }
-}
-
-async function getDoujinObj(link = "", methodName = "getDoujinObj") {
-  const code = link.split("/")[4];
-  let response = {};
-  let tiles = [];
-  // let ogImageDownloadLinks = [];
-  let tags = [];
-  let artists = [];
-  let parodies = [];
-  let characters = [];
-  let groups = [];
-  let languague = [];
-  let categories = [];
-
-  let $ = await getRequest(link, methodName);
-
-  // Parodies - 0
-
-  $("#info-block section#tags div ")
-    .eq(0)
-    .children()
-    .children()
-    .children(".name")
-    .each((i, e) => parodies.push($(e).eq(0).text()));
-
-  // Characters - 1
-
-  $("#info-block section#tags div ")
-    .eq(1)
-    .children()
-    .children()
-    .children(".name")
-    .each((i, e) => characters.push($(e).eq(0).text()));
-
-  // Tags - 2
-
-  $("#info-block section#tags div ")
-    .eq(2)
-    .children()
-    .children()
-    .children(".name")
-    .each((i, e) => tags.push($(e).eq(0).text()));
-
-  // Artist Name - 3
-
-  $("#info-block section#tags div ")
-    .eq(3)
-    .children()
-    .children()
-    .children(".name")
-    .each((i, e) => artists.push($(e).eq(0).text()));
-
-  // Groups - 4
-
-  $("#info-block section#tags div ")
-    .eq(4)
-    .children()
-    .children()
-    .children(".name")
-    .each((i, e) => groups.push($(e).eq(0).text()));
-
-  // Languague - 5
-
-  $("#info-block section#tags div ")
-    .eq(5)
-    .children()
-    .children()
-    .children(".name")
-    .each((i, e) => languague.push($(e).eq(0).text()));
-
-  // Categories - 6
-
-  $("#info-block section#tags div ")
-    .eq(6)
-    .children()
-    .children()
-    .children(".name")
-    .each((i, e) => categories.push($(e).eq(0).text()));
-
-  // Tiles
-  $(".thumbs div.thumb-container a").each((x, e) => {
-    tiles.push({
-      tileIndex: x + 1,
-      linkTo: $(e).attr("href"),
-      tileView: $(e).children().attr("data-src"),
-    });
-  });
-
-  // ogImageDownloadLink -> Reintegration Needed (Looking out for Speed and reliability on images)
-  // ogImageDownloadLinks = await getDoujinDownloadLinks(code);
-
-  response["name"] = $("#info-block .title").text().replace("/>", "");
-  response["code"] = $("#info-block h3").text();
-  response["parodies"] = parodies;
-  response["characters"] = characters;
-  response["tags"] = tags;
-  response["artists"] = artists;
-  response["groups"] = groups;
-  response["languague"] = languague;
-  response["categories"] = categories;
-  response["tiles"] = tiles;
-  // response["ogImages"] = ogImageDownloadLinks;
-
-  return response;
-}
-
 async function getCodedDoujin(doujinNum = "000000") {
-  return getDoujinObj(
-    `https://nhentai.net/g/${doujinNum | 0}/`,
-    "getCodedDoujin"
-  );
+  return getDoujinObj(`https://nhentai.net/g/${doujinNum | 0}/`, "getCodedDoujin");
 }
 
 async function getRandomCode() {
@@ -137,26 +14,21 @@ async function getMainPageContentPopular() {
   let $ = await getRequest(`https://nhentai.net/`, "getMainPageContentPopular");
   let rrArr = [];
 
-  $('div[class="container index-container index-popular"] .gallery a').each(
-    (i, e) => {
-      rrArr.push({
-        index: i + 1,
-        name: $(e).text().split("/>")[1],
-        link: $(e).attr("href"),
-        coverScr: $(e).children().attr("data-src"),
-        code: $(e).attr("href").split("/")[2],
-      });
-    }
-  );
+  $('div[class="container index-container index-popular"] .gallery a').each((i, e) => {
+    rrArr.push({
+      index: i + 1,
+      name: $(e).text().split("/>")[1],
+      link: $(e).attr("href"),
+      coverScr: $(e).children().attr("data-src"),
+      code: $(e).attr("href").split("/")[2],
+    });
+  });
 
   return rrArr;
 }
 
 async function getMainPageContentNoPopular() {
-  let $ = await getRequest(
-    `https://nhentai.net/`,
-    "getMainPageContentNoPopular"
-  );
+  let $ = await getRequest(`https://nhentai.net/`, "getMainPageContentNoPopular");
   let rrArr = [];
 
   $('div[class="container index-container"] .gallery a').each((i, e) => {
@@ -294,13 +166,9 @@ async function getDoujinsByGroup(group = "da-hootch", pageNumb = 1) {
 }
 
 async function getDoujinDownloadLink(code = 177013) {
-  let $ = await getRequest(
-    `https://nhentai.net/g/${code | 0}/`,
-    "getDoujinDownloadLink"
-  );
+  let $ = await getRequest(`https://nhentai.net/g/${code | 0}/`, "getDoujinDownloadLink");
   let totalAmmountPages = $(".thumbs div.thumb-container a").length;
-  let newLink =
-    "https://nhentai.net" + $(".thumbs div.thumb-container a").attr("href");
+  let newLink = "https://nhentai.net" + $(".thumbs div.thumb-container a").attr("href");
   $ = await getRequest(newLink);
 
   return {
@@ -315,18 +183,16 @@ async function getSectionedMainPage() {
   let noPopArr = [];
   let $ = await getRequest(`https://nhentai.net/`, "getSectionedMainPage");
 
-  $('div[class="container index-container index-popular"] .gallery a').each(
-    (i, e) => {
-      popArr.push({
-        index: i,
-        name: $(e).text().split("/>")[1],
-        link: $(e).attr("href"),
-        coverScr: $(e).children().attr("data-src"),
-        code: $(e).attr("href").split(),
-        code: $(e).attr("href").split("/")[2],
-      });
-    }
-  );
+  $('div[class="container index-container index-popular"] .gallery a').each((i, e) => {
+    popArr.push({
+      index: i,
+      name: $(e).text().split("/>")[1],
+      link: $(e).attr("href"),
+      coverScr: $(e).children().attr("data-src"),
+      code: $(e).attr("href").split(),
+      code: $(e).attr("href").split("/")[2],
+    });
+  });
 
   $('div[class="container index-container"] .gallery a').each((i, e) => {
     noPopArr.push({
@@ -362,10 +228,7 @@ async function getDoujinTags(code = "000000") {
 async function getIndexPage(index = 1) {
   let arr = [];
 
-  let $ = await getRequest(
-    `https://nhentai.net/?page=${index}`,
-    "getIndexPage"
-  );
+  let $ = await getRequest(`https://nhentai.net/?page=${index}`, "getIndexPage");
 
   $('div[class="container index-container"] .gallery a').each(async (i, e) => {
     arr.push({
@@ -444,10 +307,7 @@ async function getDoujinDownloadLinks(code = "379261", totalPages = 0) {
 }
 
 async function downloadDoujin(code = "379261", route = "C:\\") {
-  const $ = await getRequest(
-    `https://nhentai.net/g/${code | 0}/1/`,
-    "Download Method!"
-  );
+  const $ = await getRequest(`https://nhentai.net/g/${code | 0}/1/`, "Download Method!");
   const totalPagesAvailable = $(".num-pages").html().toString() | 0;
   let doujinName = $("head title").text().split(" - ")[0];
   let initialPage = 1;
@@ -507,9 +367,7 @@ class NhentaiBook {
     let categories = [];
 
     // InObjectCallingRequest { Pending large testing }
-    let $ = cheerio.load(
-      (await got(`https://nhentai.net/g/${this.code}`)).body
-    );
+    let $ = cheerio.load((await got(`https://nhentai.net/g/${this.code}`)).body);
 
     // Parodies - 0
 
