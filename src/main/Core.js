@@ -1,4 +1,5 @@
 import { load } from "cheerio";
+import got from "got";
 
 export async function getRequest(uri = "", callingMethod = "no method") {
   try {
@@ -121,5 +122,5 @@ export async function getDoujinObject(link = "") {
 
 // Test Method
 export async function GotCall() {
-  return await await got(`https://nhentai.net/g/177013`);
+  return await got(`https://nhentai.net/g/177013`);
 }
