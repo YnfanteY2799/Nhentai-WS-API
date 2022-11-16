@@ -4,7 +4,9 @@ Description:
 Api for Nhentai, it's made with WebScraping, so when the Page Design chages this API will too ( i'mean i'll update it ),
 this was build with Cheerio, Node Js and Got.
 
-Status: Ready to implement ( Published to NPM )
+Status: Ready to implement ( Published to NPM ) -> Old versions
+
+Status (16-11-2022) : Working on  
 
 ## Working Methods
 
@@ -114,4 +116,10 @@ All methods are Async due to **obvious reasons
 
 { getDoujinDownloadLinks } -> It's disabled on Complex data fetches Due to speed issues, it can be used by itself, but calling Doujin properties wont call it
 
-### NodeJs #Cheerio #API #Got #WebScrapping
+## IMPORTANT
+
+Project under remake -> Due to some NHentai site security changes this library will be re made, structural and logical change will be made
+
+--- Last update of this point : 16/11/2022 ---
+
+### #NodeJs #Cheerio #API #Got #WebScrapping
