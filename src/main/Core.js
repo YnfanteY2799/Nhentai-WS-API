@@ -120,7 +120,12 @@ export async function getDoujinObject(link = "") {
   return response;
 }
 
+export async function getBasedFetchResponse(link = "") {
+  console.log(load((await got(link)).body));
+}
+
 // Test Method
 export async function GotCall() {
-  return await got(`https://nhentai.net/g/177013`);
+  // return await got(`https://nhentai.net/g/177013`);
+  return await got(`https://nhentai.net`);
 }

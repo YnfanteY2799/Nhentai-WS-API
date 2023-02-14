@@ -1,9 +1,10 @@
 import got from "got";
 import fs from "fs";
 import { get } from "https";
+import { getDoujinObject, GotCall } from "./src/main/Core.js";
 
 async function getCodedDoujin(doujinNum = "000000") {
-  return getDoujinObj(`https://nhentai.net/g/${doujinNum | 0}/`, "getCodedDoujin");
+  return getDoujinObject(`https://nhentai.net/g/${doujinNum | 0}/`, "getCodedDoujin");
 }
 
 async function getRandomCode() {
@@ -484,3 +485,5 @@ const NhenApi = {
 };
 
 export default NhenApi;
+
+GotCall();
