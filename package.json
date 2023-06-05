@@ -4,7 +4,8 @@
   "description": "Api for Nhentai, it's made with WebScraping, so when the Page Design chages this API will too ( i'mean i'll update it ), this was build with Cheerio, Node Js, Request and Request-Promise.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pnpm tsc && node build/index.js"
   },
   "type": "module",
   "keywords": [
@@ -18,7 +19,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/got": "^9.6.12",
+    "@types/node": "^20.2.5",
     "cheerio": "^1.0.0-rc.12",
-    "got": "^12.5.3"
+    "got": "^13.0.0",
+    "typescript": "^5.1.3"
   }
 }
