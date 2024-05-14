@@ -8,6 +8,9 @@ Status: Ready to implement ( Published to NPM ) -> Old versions
 
 Status (16-11-2022) : Working on  
 
+Status (14-05-2024) : Not Working, Currently app has issues with Cloudflare on NH  
+
+
 ## Working Methods
 
 - ### GetCodedDoujin : { Exported }
