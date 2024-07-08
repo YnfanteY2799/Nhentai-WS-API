@@ -32,3 +32,15 @@ export async function getDoujinTags(code = "000000"): Promise<Array<string>> {
 
   return resp;
 }
+
+export async function getDoujinDownloadLinks(code = "") {
+  const $ = await getRequest(`https://nhentai.net/g/${code}/1/`, "getDoujinDownloadLinks");
+  const totalPagesAvailable = parseInt($(".num-pages").html() ?? "");
+  const response: Array<string> = [];
+
+  for (let init = 1; init <= totalPagesAvailable; init++) {
+    const $$ = await getRequest(`https://nhentai.net/g/${code}/${init}/`, "getDoujinDownloadLinks__SUB");
+    response.push($$("#image-container a img").attr("src") ?? "");
+  }
+  return response;
+}

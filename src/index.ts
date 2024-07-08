@@ -2,6 +2,7 @@ import fs from "fs";
 import { getDoujinObject } from "./main/Core.js";
 import { getPopularDoujinshi } from "./main/Popularity.js";
 import { getMainPageByRange } from "./main/MainPageSections.js";
+import { getDoujinDownloadLinks } from "./main/Book.js";
 
 // async function getCodedDoujin(doujinNum: string | number = "000000") {
 //   console.log("Worked");
@@ -33,33 +34,6 @@ import { getMainPageByRange } from "./main/MainPageSections.js";
 //   return arr;
 // }
 
-// async function getDoujinDownloadLinks(code = "379261", totalPages = 0) {
-//   let $ = null;
-//   let totalPagesAvailable = null;
-//   if (totalPages === 0) {
-//     $ = await getRequest(
-//       `https://nhentai.net/g/${code | 0}/1/`,
-//       "getDoujinDownloadLinks"
-//     );
-//     totalPagesAvailable = $(".num-pages").html().toString() | 0;
-//   } else {
-//     totalPagesAvailable = totalPages;
-//   }
-
-//   let initialPage = 1;
-//   let respArr = [];
-
-//   while (initialPage <= totalPagesAvailable) {
-//     const $$ = await getRequest(
-//       `https://nhentai.net/g/${code | 0}/${initialPage}/`,
-//       "getDoujinDownloadLinks"
-//     );
-//     respArr = [...respArr, $$("#image-container a img").attr("src")];
-//     initialPage++;
-//   }
-
-//   return respArr;
-// }
 
 // async function downloadDoujin(code = "379261", route = "C:\\") {
 //   const $ = await getRequest(`https://nhentai.net/g/${code | 0}/1/`, "Download Method!");
@@ -92,4 +66,4 @@ import { getMainPageByRange } from "./main/MainPageSections.js";
 //   }
 // }
 
-console.log(await getMainPageByRange(10));
+console.log(await getDoujinDownloadLinks("326481"));
