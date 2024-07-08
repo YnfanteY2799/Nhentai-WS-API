@@ -4,14 +4,18 @@ import got from "got";
 
 export async function getRequest(uri = "", callingMethod = "no method"): Promise<CheerioAPI> {
   try {
-    return load((await got(uri)).body);
+    return load(
+      (
+        await got(uri, {
+          headers: {
+            "user-agent": "Firefox",
+          },
+        })
+      ).body
+    );
   } catch (e) {
     throw Error(
-      `Page does Not Exist or Something else happened check the page link, Check Doujin Code from URL : ` +
-        uri +
-        "\n" +
-        " Check the method call at : " +
-        callingMethod
+      `Page does Not Exist or Something else happened check the page link, Check Doujin Code from URL : ${uri} \n Check the method call at : ${callingMethod}`
     );
   }
 }

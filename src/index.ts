@@ -3,7 +3,9 @@ import { get } from "https";
 import { getDoujinObject, getRequest } from "./main/Core.js";
 
 async function getCodedDoujin(doujinNum: string | number = "000000") {
-  return getDoujinObject(`https://nhentai.net/g/${doujinNum}/`);
+  const returnable = await getDoujinObject(`https://nhentai.net/g/${doujinNum}/`);
+
+  console.log({ returnable });
 }
 
 // async function getRandomCode() {
