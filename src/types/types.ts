@@ -29,3 +29,8 @@ export type TBookDLs = {
   uri?: string;
   totalPages?: number;
 };
+
+export type TRangedEntries = {
+  pageIndex: number;
+  pageContent: Array<ITiledEntry>;
+};

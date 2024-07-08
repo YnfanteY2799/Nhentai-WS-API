@@ -1,6 +1,6 @@
 import { getSection } from "./Core.js";
 
-import type { ITiledEntry } from "../types/types";
+import type { ITiledEntry, TRangedEntries } from "../types/types";
 
 const MAIN_PAGE_URI = "https://nhentai.net/" as const;
 
@@ -50,13 +50,9 @@ export async function getMainPageContent(): Promise<Array<ITiledEntry>> {
 
 export async function getMainPageByIndex(index = 1): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
-  const uri = MAIN_PAGE_URI.concat(`https://nhentai.net/?page=${index}`);
+  const uri = MAIN_PAGE_URI.concat(`?page=${index}`);
 
-  const [section, $] = await getSection(
-    uri,
-    'div[class="container index-container index-popular"] .gallery a',
-    "getMainPageByIndex"
-  );
+  const [section, $] = await getSection(uri, 'div[class="container index-container"] .gallery a', "getMainPageByIndex");
 
   section.each((index, element) => {
     response.push({
@@ -67,6 +63,14 @@ export async function getMainPageByIndex(index = 1): Promise<Array<ITiledEntry>>
       code: ($(element).attr("href") ?? "").split("/")[2],
     });
   });
+
+  return response;
+}
+
+export async function getMainPageByRange(range = 5): Promise<Array<TRangedEntries>> {
+  const response: Array<TRangedEntries> = [];
+  for (let index = 0; index < range; index++)
+    response.push({ pageIndex: index + 1, pageContent: await getMainPageByIndex(index + 1) });
 
   return response;
 }

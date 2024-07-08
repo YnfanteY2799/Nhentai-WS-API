@@ -1,6 +1,7 @@
 import fs from "fs";
 import { getDoujinObject } from "./main/Core.js";
 import { getPopularDoujinshi } from "./main/Popularity.js";
+import { getMainPageByRange } from "./main/MainPageSections.js";
 
 // async function getCodedDoujin(doujinNum: string | number = "000000") {
 //   console.log("Worked");
@@ -9,19 +10,7 @@ import { getPopularDoujinshi } from "./main/Popularity.js";
 //   console.log({ returnable });
 // }
 
-// async function getMainPageDoujinsPerIndex(index = 5) {
-//   let rrs = [];
 
-//   let i = 0;
-//   while (i < index) {
-//     let rr = await getIndexPage(i + 1);
-//     rrs = [...rrs, rr];
-
-//     i++;
-//   }
-
-//   return rrs;
-// }
 
 // async function getSimpelSearch(keyWord = "") {
 //   let arr = [];
@@ -103,4 +92,4 @@ import { getPopularDoujinshi } from "./main/Popularity.js";
 //   }
 // }
 
-console.log(await getPopularDoujinshi());
+console.log(await getMainPageByRange(10));
