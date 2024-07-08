@@ -1,35 +1,12 @@
 import fs from "fs";
 import { getDoujinObject } from "./main/Core.js";
+import { getPopularDoujinshibyPage } from "./main/Popularity.js";
 
 // async function getCodedDoujin(doujinNum: string | number = "000000") {
 //   console.log("Worked");
 //   const returnable = await getDoujinObject(`https://nhentai.net/g/${doujinNum}/`);
 
 //   console.log({ returnable });
-// }
-
-
-
-
-
-// async function getPopularMangabyPage(pageNum = 1) {
-//   let $ = await getRequest(
-//     `https://nhentai.net/category/manga/popular?page=${pageNum}`,
-//     "getPopularMangabyPage"
-//   );
-//   let rrArr = [];
-
-//   $('div[class="container index-container"] .gallery a').each((i, e) => {
-//     rrArr.push({
-//       index: i + 1,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
-
-//   return rrArr;
 // }
 
 // async function getDoujinsByArtist(artistName = "shindol", pageNumb = 1) {
@@ -284,3 +261,4 @@ import { getDoujinObject } from "./main/Core.js";
 //   }
 // }
 
+console.log(await getPopularDoujinshibyPage());

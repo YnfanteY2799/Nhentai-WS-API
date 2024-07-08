@@ -1,19 +1,34 @@
-const MAIN_PAGE_URI = "" as const;
+import { getSection } from "../main/Core.js";
 
-// async function getPopularDoujinshibyPage(pageNum = 1) {
-//   let $ = await getRequest(`https://nhentai.net/category/doujinshi/popular?page=${pageNum}`, "getPopularDoujinshibyPage");
+import type { ITiledEntry } from "../types/types";
 
-//   let rrArr = [];
+const MAIN_PAGE_URI = `https://nhentai.net/category/XXXXX/popular` as const;
 
-//   $('div[class="container index-container"] .gallery a').each((i, e) => {
-//     rrArr.push({
-//       index: i + 1,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
+export async function getPopularDoujinshibyPage(pageNum = 1): Promise<Array<ITiledEntry>> {
+  const response: Array<ITiledEntry> = [];
+  const totalURI = MAIN_PAGE_URI.replace("XXXXX", "doujinshi").concat(`?page=${pageNum}`);
 
-//   return rrArr;
-// }
+  const [section, $] = await getSection(
+    totalURI,
+    'div[class="container index-container"] .gallery a',
+    "getPopularDoujinshibyPage"
+  );
+
+  section.each((index, element) => {
+    response.push({
+      index: index + 1,
+      link: $(element).attr("href"),
+      name: $(element).text().split("/>")[1],
+      coverScr: $(element).children().attr("data-src"),
+      code: ($(element).attr("href") ?? "").split("/")[2],
+    });
+  });
+
+  return response;
+}
+
+async function getPopularMangabyPage(pageNum = 1) {
+  //     `https://nhentai.net/category/manga/popular?page=${pageNum}`,
+  //     "getPopularMangabyPage"
+  // 'div[class="container index-container"] .gallery a'
+}

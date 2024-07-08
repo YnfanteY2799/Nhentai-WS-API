@@ -1,4 +1,4 @@
-import { getSection } from "./Core";
+import { getSection } from "./Core.js";
 
 import type { ITiledEntry } from "../types/types";
 
@@ -14,7 +14,7 @@ export async function getActualPopularContent(): Promise<Array<ITiledEntry>> {
   );
 
   section.each((index, element) => {
-    response.concat({
+    response.push({
       index: index + 1,
       link: $(element).attr("href"),
       name: $(element).text().split("/>")[1],
@@ -36,7 +36,7 @@ export async function getMainPageContent(): Promise<Array<ITiledEntry>> {
   );
 
   section.each((index, element) => {
-    response.concat({
+    response.push({
       index: index + 1,
       link: $(element).attr("href"),
       name: $(element).text().split("/>")[1],
