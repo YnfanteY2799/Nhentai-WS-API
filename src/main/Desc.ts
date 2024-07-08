@@ -67,3 +67,25 @@ export async function getDoujinsByGroup(group = "da-hootch", pageNumb = 1): Prom
 
   return response;
 }
+
+export async function getDoujinsByArtist(artistName = "shindol", pageNumb = 1): Promise<ITiledEntry[]> {
+  const response: Array<ITiledEntry> = [];
+
+  const [section, $] = await getSection(
+    `https://nhentai.net/artist/${artistName}/?page=${pageNumb}`,
+    'div[class="container index-container"] .gallery a',
+    "getDoujinsByArtist"
+  );
+
+  section.each((index, element) => {
+    response.push({
+      index: index + 1,
+      link: $(element).attr("href"),
+      name: $(element).text().split("/>")[1],
+      coverScr: $(element).children().attr("data-src"),
+      code: ($(element).attr("href") ?? "").split("/")[2],
+    });
+  });
+
+  return response;
+}
