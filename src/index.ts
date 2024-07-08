@@ -1,6 +1,6 @@
 import fs from "fs";
 import { getDoujinObject } from "./main/Core.js";
-import { getPopularDoujinshibyPage } from "./main/Popularity.js";
+import { getPopularDoujinshi } from "./main/Popularity.js";
 
 // async function getCodedDoujin(doujinNum: string | number = "000000") {
 //   console.log("Worked");
@@ -261,4 +261,4 @@ import { getPopularDoujinshibyPage } from "./main/Popularity.js";
 //   }
 // }
 
-console.log(await getPopularDoujinshibyPage());
+console.log(await getPopularDoujinshi());

@@ -131,6 +131,3 @@ export async function getDoujinObject(link = "", methodCalled = "getDoujinObject
   return doujinDescription;
 }
 
-export async function getRandomCode(): Promise<IDoujinBook> {
-  return getDoujinObject(`https://nhentai.net/random/`, "getRandomCode");
-}
