@@ -17,4 +17,10 @@ export type Doujin_Tile = {
   view?: string;
 };
 
-export interface ITiledEntry {}
+export interface ITiledEntry {
+  link?: string;
+  name?: string;
+  code?: string;
+  index?: number;
+  coverScr?: string;
+}
