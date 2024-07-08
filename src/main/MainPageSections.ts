@@ -47,3 +47,26 @@ export async function getMainPageContent(): Promise<Array<ITiledEntry>> {
 
   return response;
 }
+
+export async function getMainPageByIndex(index = 1): Promise<Array<ITiledEntry>> {
+  const response: Array<ITiledEntry> = [];
+  const uri = MAIN_PAGE_URI.concat(`https://nhentai.net/?page=${index}`);
+
+  const [section, $] = await getSection(
+    uri,
+    'div[class="container index-container index-popular"] .gallery a',
+    "getMainPageByIndex"
+  );
+
+  section.each((index, element) => {
+    response.push({
+      index: index + 1,
+      link: $(element).attr("href"),
+      name: $(element).text().split("/>")[1],
+      coverScr: $(element).children().attr("data-src"),
+      code: ($(element).attr("href") ?? "").split("/")[2],
+    });
+  });
+
+  return response;
+}

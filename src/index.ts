@@ -9,31 +9,6 @@ import { getPopularDoujinshi } from "./main/Popularity.js";
 //   console.log({ returnable });
 // }
 
-
-
-
-
-
-
-
-// async function getIndexPage(index = 1) {
-//   let arr = [];
-
-//   let $ = await getRequest(`https://nhentai.net/?page=${index}`, "getIndexPage");
-
-//   $('div[class="container index-container"] .gallery a').each(async (i, e) => {
-//     arr.push({
-//       index: i + 1,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
-
-//   return arr;
-// }
-
 // async function getMainPageDoujinsPerIndex(index = 5) {
 //   let rrs = [];
 
