@@ -1,3 +1,5 @@
+const MAIN_PAGE_URI = "" as const;
+
 // async function getPopularDoujinshibyPage(pageNum = 1) {
 //   let $ = await getRequest(`https://nhentai.net/category/doujinshi/popular?page=${pageNum}`, "getPopularDoujinshibyPage");
 

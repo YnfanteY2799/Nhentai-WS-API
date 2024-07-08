@@ -2,7 +2,7 @@ import { getSection } from "./Core";
 
 import type { ITiledEntry } from "../types/types";
 
-const MAIN_PAGE_URI = "https://nhentai.net/";
+const MAIN_PAGE_URI = "https://nhentai.net/" as const;
 
 export async function getActualPopularContent(): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
