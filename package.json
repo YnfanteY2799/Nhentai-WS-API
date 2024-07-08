@@ -1,11 +1,20 @@
 {
   "name": "nhentai-websrcrapping-api",
-  "version": "1.0.9",
+  "version": "2.0.0",
   "description": "Api for Nhentai, it's made with WebScraping, so when the Page Design chages this API will too ( i'mean i'll update it ), this was build with Cheerio, Node Js, Request and Request-Promise.",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pnpm tsc && node build/index.js"
+    "build": "tsc"
+  },
+  "repository": "YnfanteY2799/Nhentai-WS-API",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
   },
   "type": "module",
   "keywords": [
@@ -16,6 +25,7 @@
     "cheerio",
     "nodejs"
   ],
+  "homepage": "https://github.com/YnfanteY2799/Nhentai-WS-API",
   "author": "",
   "license": "ISC",
   "dependencies": {

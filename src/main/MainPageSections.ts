@@ -1,6 +1,6 @@
 import { getSection } from "./Core.js";
 
-import type { ITiledEntry, TRangedEntries } from "../types/types";
+import type { ITiledEntry, TRangedEntries } from "../types/types.js";
 
 const MAIN_PAGE_URI = "https://nhentai.net/" as const;
 

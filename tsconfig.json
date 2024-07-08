@@ -1,16 +1,46 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "allowJs": true,
-    "outDir": "build",
-    "rootDir": "src",
-    "strict": true,
-    "noImplicitAny": true,
+    "module": "Node16",
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "lib": ["ES2022"],
-    "module": "ES2022",
-  }
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "listEmittedFiles": true,
+    "listFiles": false,
+    "noEmitOnError": true,
+    "moduleResolution": "Node16",
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
+    },
+    "target": "es2022", // Node.js 18
+		"lib": [
+			"es2022"
+		],
+		"isolatedModules": true,
+		"noImplicitOverride": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"useDefineForClassFields": true,
+		"skipLibCheck": true
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
