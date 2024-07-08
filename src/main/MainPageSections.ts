@@ -2,11 +2,13 @@ import { getSection } from "./Core";
 
 import type { ITiledEntry } from "../types/types";
 
+const MAIN_PAGE_URI = "https://nhentai.net/";
+
 export async function getActualPopularContent(): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
 
   const [section, $] = await getSection(
-    `https://nhentai.net/`,
+    MAIN_PAGE_URI,
     'div[class="container index-container index-popular"] .gallery a',
     "getActualPopularContent"
   );
@@ -28,7 +30,7 @@ export async function getMainPageContent(): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
 
   const [section, $] = await getSection(
-    `https://nhentai.net/`,
+    MAIN_PAGE_URI,
     'div[class="container index-container"] .gallery a',
     "getActualPopularContent"
   );
