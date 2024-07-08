@@ -1,8 +1,10 @@
 import { getRequest } from "./Core.js";
+import { get } from "https";
+import fs from "fs";
 
 import type { TBookDLs } from "../types/types.js";
 
-export async function getDoujinDownloadLink(code = 177013): Promise<TBookDLs> {
+export async function getDoujinDownloadLinkDetails(code = 177013): Promise<TBookDLs> {
   const response: TBookDLs = { totalPages: 0, uri: "" };
 
   let $ = await getRequest(`https://nhentai.net/g/${code}/`, "getDoujinDownloadLink");
@@ -45,33 +47,24 @@ export async function getDoujinDownloadLinks(code = "") {
   return response;
 }
 
-// async function downloadDoujin(code = "379261", route = "C:\\") {
-//   const $ = await getRequest(`https://nhentai.net/g/${code | 0}/1/`, "Download Method!");
-//   const totalPagesAvailable = $(".num-pages").html().toString() | 0;
-//   let doujinName = $("head title").text().split(" - ")[0];
-//   let initialPage = 1;
-//   let respArr = [];
-//   let folder = `${route}${doujinName}\\`;
+export async function downloadDoujin(code = "379261", route = "C:\\"): Promise<void> {
+  const $ = await getRequest(`https://nhentai.net/g/${code}/1/`, `DowloadDoujin ${code}`);
+  const totalPagesAvailable = parseInt($(".num-pages").html() ?? "");
+  const doujinName = $("head title").text().split(" - ")[0];
+  const folder = `${route}${doujinName}\\`;
 
-//   if (!fs.existsSync(folder)) {
-//     fs.mkdirSync(folder);
-//   }
+  if (!fs.existsSync(folder)) fs.mkdirSync(folder);
 
-//   while (initialPage <= totalPagesAvailable) {
-//     const $$ = await getRequest(
-//       `https://nhentai.net/g/${code | 0}/${initialPage}/`,
-//       "Download Method While execution !"
-//     );
-//     let link = $$("#image-container a img").attr("src");
-//     let currFIleName = link.split("/")[5];
-//     respArr = [...respArr, link];
+  for (let init = 1; init <= totalPagesAvailable; init++) {
+    const $$ = await getRequest(`https://nhentai.net/g/${code}/${init}/`, "Download Method While executing !");
+    const link = $$("#image-container a img").attr("src");
+    const currFIleName = (link ?? "").split("/")[5];
 
-//     get(link, (res) => {
-//       const fls = fs.createWriteStream(folder + currFIleName);
-//       res.pipe(fls);
-//       fls.on("error", (error) => console.log(error));
-//       fls.on("finish", () => console.log(`Finished With : ${currFIleName}...`));
-//     });
-//     initialPage++;
-//   }
-// }
+    get(link ?? "", (res) => {
+      const fls = fs.createWriteStream(folder + currFIleName);
+      res.pipe(fls);
+      fls.on("error", (error) => console.log(error));
+      fls.on("finish", () => console.log(`Finished With : ${currFIleName}...`));
+    });
+  }
+}
