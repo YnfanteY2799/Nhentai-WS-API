@@ -44,3 +44,34 @@ export async function getDoujinDownloadLinks(code = "") {
   }
   return response;
 }
+
+// async function downloadDoujin(code = "379261", route = "C:\\") {
+//   const $ = await getRequest(`https://nhentai.net/g/${code | 0}/1/`, "Download Method!");
+//   const totalPagesAvailable = $(".num-pages").html().toString() | 0;
+//   let doujinName = $("head title").text().split(" - ")[0];
+//   let initialPage = 1;
+//   let respArr = [];
+//   let folder = `${route}${doujinName}\\`;
+
+//   if (!fs.existsSync(folder)) {
+//     fs.mkdirSync(folder);
+//   }
+
+//   while (initialPage <= totalPagesAvailable) {
+//     const $$ = await getRequest(
+//       `https://nhentai.net/g/${code | 0}/${initialPage}/`,
+//       "Download Method While execution !"
+//     );
+//     let link = $$("#image-container a img").attr("src");
+//     let currFIleName = link.split("/")[5];
+//     respArr = [...respArr, link];
+
+//     get(link, (res) => {
+//       const fls = fs.createWriteStream(folder + currFIleName);
+//       res.pipe(fls);
+//       fls.on("error", (error) => console.log(error));
+//       fls.on("finish", () => console.log(`Finished With : ${currFIleName}...`));
+//     });
+//     initialPage++;
+//   }
+// }

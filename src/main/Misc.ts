@@ -1,41 +1,33 @@
-import { getDoujinObject } from "./Core.js";
+import { getDoujinObject, getSection } from "./Core.js";
 
-import type { IDoujinBook } from "../types/types";
+import type { IDoujinBook, ITiledEntry } from "../types/types";
 
 export async function getRandomCode(): Promise<IDoujinBook> {
   return getDoujinObject(`https://nhentai.net/random/`, "getRandomCode");
 }
 
+export async function searchDoujinByQuery(keyWord = "", page = 1): Promise<Array<ITiledEntry>> {
+  const response: Array<ITiledEntry> = [];
 
-// async function getSectionedMainPage() {
-//   let response = {};
-//   let popArr = [];
-//   let noPopArr = [];
-//   let $ = await getRequest(`https://nhentai.net/`, "getSectionedMainPage");
+  const buildedUri = keyWord.includes(",")
+    ? `https://nhentai.net/search/?q=${keyWord.replace(/,+/gim, "+")}&page=${page}`
+    : `https://nhentai.net/search/?q=${keyWord.replace(/ +/gim, "+")}&page=${page}`;
 
-//   $('div[class="container index-container index-popular"] .gallery a').each((i, e) => {
-//     popArr.push({
-//       index: i,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split(),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
+  const [section, $] = await getSection(
+    buildedUri,
+    'div[class="container index-container"] .gallery a',
+    "searchDoujinByQuery"
+  );
 
-//   $('div[class="container index-container"] .gallery a').each((i, e) => {
-//     noPopArr.push({
-//       index: i + 5,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
+  section.each((index, element) => {
+    response.push({
+      index: index + 1,
+      link: $(element).attr("href"),
+      name: $(element).text().split("/>")[1],
+      coverScr: $(element).children().attr("data-src"),
+      code: ($(element).attr("href") ?? "").split("/")[2],
+    });
+  });
 
-//   response["popular"] = popArr;
-//   response["noPopular"] = noPopArr;
-
-//   return response;
-// }
+  return response;
+}
