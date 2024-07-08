@@ -1,18 +1,11 @@
-import { IDoujinBook, T_Tile } from "../types/types.js";
 import { CheerioAPI, load } from "cheerio";
 import got from "got";
 
+import type { IDoujinBook } from "../types/types.js";
+
 export async function getRequest(uri = "", callingMethod = "no method"): Promise<CheerioAPI> {
   try {
-    return load(
-      (
-        await got(uri, {
-          headers: {
-            "user-agent": "Firefox",
-          },
-        })
-      ).body
-    );
+    return load((await got(uri)).body);
   } catch (e) {
     throw Error(
       `Page does Not Exist or Something else happened check the page link, Check Doujin Code from URL : ${uri} \n Check the method call at : ${callingMethod}`
@@ -20,17 +13,25 @@ export async function getRequest(uri = "", callingMethod = "no method"): Promise
   }
 }
 
-export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
-  const tiles: T_Tile[] = [];
-  const tags: string[] = [];
-  const artists: string[] = [];
-  const parodies: string[] = [];
-  const characters: string[] = [];
-  const groups: string[] = [];
-  const languague: string[] = [];
-  const categories: string[] = [];
+export async function getDoujinObject(link = "", methodCalled = "getDoujinObject"): Promise<IDoujinBook> {
+  const doujinDescription: IDoujinBook = {
+    tags: [],
+    name: "",
+    code: "",
+    tiles: [],
+    groups: [],
+    artists: [],
+    parodies: [],
+    languague: [],
+    characters: [],
+    categories: [],
+  };
 
-  let $ = await getRequest(link, "getDoujinObj");
+  const $ = await getRequest(link, methodCalled);
+
+  // Basic Data [Name, Code]
+  doujinDescription.name = $("#info-block .title").text().replace("/>", "");
+  doujinDescription.code = $("#info-block h3").text();
 
   // Parodies - 0
 
@@ -39,8 +40,8 @@ export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
     .children()
     .children()
     .children(".name")
-    .each((_, e) => {
-      parodies.push($(e).eq(0).text());
+    .each((_, e): void => {
+      doujinDescription.parodies.push($(e).eq(0).text());
     });
 
   // Characters - 1
@@ -51,7 +52,7 @@ export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
     .children()
     .children(".name")
     .each((_, e) => {
-      characters.push($(e).eq(0).text());
+      doujinDescription.characters.push($(e).eq(0).text());
     });
 
   // Tags - 2
@@ -62,7 +63,7 @@ export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
     .children()
     .children(".name")
     .each((_, e) => {
-      tags.push($(e).eq(0).text());
+      doujinDescription.tags.push($(e).eq(0).text());
     });
 
   // Artist Name - 3
@@ -73,7 +74,7 @@ export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
     .children()
     .children(".name")
     .each((_, e) => {
-      artists.push($(e).eq(0).text());
+      doujinDescription.artists.push($(e).eq(0).text());
     });
 
   // Groups - 4
@@ -84,7 +85,7 @@ export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
     .children()
     .children(".name")
     .each((_, e) => {
-      groups.push($(e).eq(0).text());
+      doujinDescription.groups.push($(e).eq(0).text());
     });
 
   // Languague - 5
@@ -95,7 +96,7 @@ export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
     .children()
     .children(".name")
     .each((_, e) => {
-      languague.push($(e).eq(0).text());
+      doujinDescription.languague.push($(e).eq(0).text());
     });
 
   // Categories - 6
@@ -106,13 +107,13 @@ export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
     .children()
     .children(".name")
     .each((_, e) => {
-      categories.push($(e).eq(0).text());
+      doujinDescription.categories.push($(e).eq(0).text());
     });
 
   // Tiles
-  $(".thumbs div.thumb-container a").each((x, e) => {
-    tiles.push({
-      index: x + 1,
+  $(".thumbs div.thumb-container a").each((index, e) => {
+    doujinDescription.tiles.push({
+      index: index + 1,
       link: $(e).attr("href"),
       view: $(e).children().attr("data-src"),
     });
@@ -121,18 +122,9 @@ export async function getDoujinObject(link = ""): Promise<IDoujinBook> {
   // ogImageDownloadLink -> Reintegration Needed (Looking out for Speed and reliability on images)
   // ogImageDownloadLinks = await getDoujinDownloadLinks(code);
 
-  const response: IDoujinBook = {
-    name: $("#info-block .title").text().replace("/>", ""),
-    code: $("#info-block h3").text(),
-    parodies,
-    characters,
-    tags,
-    artists,
-    groups,
-    languague,
-    categories,
-    tiles,
-  };
+  return doujinDescription;
+}
 
-  return response;
+export async function getRandomCode() {
+  return getDoujinObject(`https://nhentai.net/random/`, "getRandomCode");
 }
