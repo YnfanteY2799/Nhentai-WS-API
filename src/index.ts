@@ -1,35 +1,16 @@
 import fs from "fs";
 import { getDoujinObject } from "./main/Core.js";
 
-async function getCodedDoujin(doujinNum: string | number = "000000") {
-  console.log("Worked");
-  const returnable = await getDoujinObject(`https://nhentai.net/g/${doujinNum}/`);
+// async function getCodedDoujin(doujinNum: string | number = "000000") {
+//   console.log("Worked");
+//   const returnable = await getDoujinObject(`https://nhentai.net/g/${doujinNum}/`);
 
-  console.log({ returnable });
-}
-
-
-
-// async function getPopularDoujinshibyPage(pageNum = 1) {
-//   let $ = await getRequest(
-//     `https://nhentai.net/category/doujinshi/popular?page=${pageNum}`,
-//     "getPopularDoujinshibyPage"
-//   );
-
-//   let rrArr = [];
-
-//   $('div[class="container index-container"] .gallery a').each((i, e) => {
-//     rrArr.push({
-//       index: i + 1,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
-
-//   return rrArr;
+//   console.log({ returnable });
 // }
+
+
+
+
 
 // async function getPopularMangabyPage(pageNum = 1) {
 //   let $ = await getRequest(
@@ -303,4 +284,3 @@ async function getCodedDoujin(doujinNum: string | number = "000000") {
 //   }
 // }
 
-await getCodedDoujin(483017);

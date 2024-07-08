@@ -1,6 +1,6 @@
-import { CheerioAPI, load } from "cheerio";
 import got from "got";
 
+import { type AnyNode, type Cheerio, type CheerioAPI, load } from "cheerio";
 import type { IDoujinBook } from "../types/types.js";
 
 export async function getRequest(uri = "", callingMethod = "no method"): Promise<CheerioAPI> {
@@ -11,6 +11,12 @@ export async function getRequest(uri = "", callingMethod = "no method"): Promise
       `Page does Not Exist or Something else happened check the page link, Check Doujin Code from URL : ${uri} \n Check the method call at : ${callingMethod}`
     );
   }
+}
+
+export async function getSection(uri = "", sectionQ?: string, methodName?: string): Promise<[Cheerio<AnyNode>, CheerioAPI]> {
+  const $ = await getRequest(uri, methodName);
+  const section = $(sectionQ);
+  return [section, $];
 }
 
 export async function getDoujinObject(link = "", methodCalled = "getDoujinObject"): Promise<IDoujinBook> {
@@ -125,6 +131,6 @@ export async function getDoujinObject(link = "", methodCalled = "getDoujinObject
   return doujinDescription;
 }
 
-export async function getRandomCode() {
+export async function getRandomCode(): Promise<IDoujinBook> {
   return getDoujinObject(`https://nhentai.net/random/`, "getRandomCode");
 }
