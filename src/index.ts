@@ -13,65 +13,8 @@ import { getPopularDoujinshi } from "./main/Popularity.js";
 
 
 
-// async function getDoujinDownloadLink(code = 177013) {
-//   let $ = await getRequest(`https://nhentai.net/g/${code | 0}/`, "getDoujinDownloadLink");
-//   let totalAmmountPages = $(".thumbs div.thumb-container a").length;
-//   let newLink = "https://nhentai.net" + $(".thumbs div.thumb-container a").attr("href");
-//   $ = await getRequest(newLink);
 
-//   return {
-//     uri: $("section#image-container").children().children().attr("src"),
-//     totalPages: totalAmmountPages,
-//   };
-// }
 
-// async function getSectionedMainPage() {
-//   let response = {};
-//   let popArr = [];
-//   let noPopArr = [];
-//   let $ = await getRequest(`https://nhentai.net/`, "getSectionedMainPage");
-
-//   $('div[class="container index-container index-popular"] .gallery a').each((i, e) => {
-//     popArr.push({
-//       index: i,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split(),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
-
-//   $('div[class="container index-container"] .gallery a').each((i, e) => {
-//     noPopArr.push({
-//       index: i + 5,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
-
-//   response["popular"] = popArr;
-//   response["noPopular"] = noPopArr;
-
-//   return response;
-// }
-
-// async function getDoujinTags(code = "000000") {
-//   let resp = [];
-
-//   let $ = await getRequest(`https://nhentai.net/g/${code}/`, "getDoujinTags");
-
-//   $("#info-block section#tags div ")
-//     .eq(2)
-//     .children()
-//     .children()
-//     .children(".name")
-//     .each((i, e) => resp.push($(e).eq(0).text()));
-
-//   return resp;
-// }
 
 // async function getIndexPage(index = 1) {
 //   let arr = [];
