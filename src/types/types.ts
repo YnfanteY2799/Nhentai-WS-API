@@ -24,3 +24,8 @@ export interface ITiledEntry {
   index?: number;
   coverScr?: string;
 }
+
+export type TBookDLs = {
+  uri?: string;
+  totalPages?: number;
+};

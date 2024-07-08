@@ -1,31 +1,34 @@
+import { getRequest } from "./Core.js";
 
+import type { TBookDLs } from "../types/types.js";
 
+export async function getDoujinDownloadLink(code = 177013): Promise<TBookDLs> {
+  const response: TBookDLs = { totalPages: 0, uri: "" };
 
-export async function getDoujinDownloadLink(code = 177013) {
+  let $ = await getRequest(`https://nhentai.net/g/${code}/`, "getDoujinDownloadLink");
 
-  let $ = await getRequest(`https://nhentai.net/g/${code | 0}/`, "getDoujinDownloadLink");
-  let totalAmmountPages = $(".thumbs div.thumb-container a").length;
-  let newLink = "https://nhentai.net" + $(".thumbs div.thumb-container a").attr("href");
-  $ = await getRequest(newLink);
+  response.totalPages = $(".thumbs div.thumb-container a").length;
 
-  return {
-    uri: $("section#image-container").children().children().attr("src"),
-    totalPages: totalAmmountPages,
-  };
+  $ = await getRequest("https://nhentai.net".concat($(".thumbs div.thumb-container a").attr("href") ?? ""));
+
+  response.uri = $("section#image-container").children().children().attr("src") ?? "";
+
+  return response;
 }
 
+export async function getDoujinTags(code = "000000"): Promise<Array<string>> {
+  const resp: Array<string> = [];
 
-async function getDoujinTags(code = "000000") {
-  let resp = [];
-
-  let $ = await getRequest(`https://nhentai.net/g/${code}/`, "getDoujinTags");
+  const $ = await getRequest(`https://nhentai.net/g/${code}/`, "getDoujinTags");
 
   $("#info-block section#tags div ")
     .eq(2)
     .children()
     .children()
     .children(".name")
-    .each((i, e) => resp.push($(e).eq(0).text()));
+    .each((_, element) => {
+      resp.push($(element).eq(0).text());
+    });
 
   return resp;
 }
