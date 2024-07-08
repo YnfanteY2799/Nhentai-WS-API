@@ -16,3 +16,5 @@ export type Doujin_Tile = {
   link?: string;
   view?: string;
 };
+
+export interface ITiledEntry {}
