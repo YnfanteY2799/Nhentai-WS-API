@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
-  "repository": "YnfanteY2799/Nhentai-WS-API",
+  "repository": {
+    "url": "YnfanteY2799/Nhentai-WS-API"
+  },
   "exports": {
     "types": "./dist/index.d.ts",
     "default": "./dist/index.js"
