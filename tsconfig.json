@@ -1,25 +1,25 @@
 {
   "compilerOptions": {
-    "module": "Node16",
-    "esModuleInterop": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "strictPropertyInitialization": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "listEmittedFiles": true,
-    "listFiles": false,
-    "noEmitOnError": true,
     "moduleResolution": "Node16",
-    "sourceMap": true,
+    "strictFunctionTypes": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "listEmittedFiles": true,
+    "esModuleInterop": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "alwaysStrict": true,
     "declaration": true,
+    "module": "Node16",
+    "listFiles": false,
+    "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
@@ -28,17 +28,17 @@
         "src/types/*"
       ]
     },
-    "target": "es2022", // Node.js 18
-		"lib": [
-			"es2022"
-		],
-		"isolatedModules": true,
-		"noImplicitOverride": true,
-		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": true,
-		"noPropertyAccessFromIndexSignature": true,
-		"useDefineForClassFields": true,
-		"skipLibCheck": true
+    "target": "es2022",
+    "lib": [
+      "es2022"
+    ],
+    "noPropertyAccessFromIndexSignature": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "useDefineForClassFields": true,
+    "noImplicitOverride": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"
