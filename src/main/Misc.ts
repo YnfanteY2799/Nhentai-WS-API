@@ -3,7 +3,7 @@ import { getDoujinObject, getSection } from "./Core.js";
 import type { IDoujinBook, ITiledEntry } from "../types/types.js";
 
 export async function getRandomCode(): Promise<IDoujinBook> {
-  return getDoujinObject(`https://nhentai.net/random/`, "getRandomCode");
+  return await getDoujinObject(`https://nhentai.net/random/`, "getRandomCode");
 }
 
 export async function searchDoujinByQuery(keyWord = "", page = 1): Promise<Array<ITiledEntry>> {

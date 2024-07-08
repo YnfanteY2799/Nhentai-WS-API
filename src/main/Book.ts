@@ -1,10 +1,14 @@
-import { getRequest } from "./Core.js";
+import { getDoujinObject, getRequest } from "./Core.js";
 import { get } from "https";
 import fs from "fs";
 
-import type { TBookDLs } from "../types/types.js";
+import type { IDoujinBook, TBookDLs } from "../types/types.js";
 
-export async function getDoujinDownloadLinkDetails(code = 177013): Promise<TBookDLs> {
+export async function getDoujinByCode(code = ""): Promise<IDoujinBook> {
+  return await getDoujinObject(`https://nhentai.net/g/${code}/`, "getCodedDoujin");
+}
+
+export async function getDoujinDownloadLinkDetails(code = ""): Promise<TBookDLs> {
   const response: TBookDLs = { totalPages: 0, uri: "" };
 
   let $ = await getRequest(`https://nhentai.net/g/${code}/`, "getDoujinDownloadLink");
