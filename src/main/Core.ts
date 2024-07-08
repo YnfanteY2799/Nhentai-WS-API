@@ -1,6 +1,6 @@
+import { type AnyNode, type Cheerio, type CheerioAPI, load } from "cheerio";
 import got from "got";
 
-import { type AnyNode, type Cheerio, type CheerioAPI, load } from "cheerio";
 import type { IDoujinBook } from "../types/types.js";
 
 export async function getRequest(uri = "", callingMethod = "no method"): Promise<CheerioAPI> {
@@ -130,4 +130,3 @@ export async function getDoujinObject(link = "", methodCalled = "getDoujinObject
 
   return doujinDescription;
 }
-

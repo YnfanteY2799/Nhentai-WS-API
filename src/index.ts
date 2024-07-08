@@ -29,65 +29,7 @@ import { getPopularDoujinshi } from "./main/Popularity.js";
 //   return rrArr;
 // }
 
-// async function getDoujinsByTag(tagName = "big-breasts", pageNumb = 1) {
-//   let $ = await getRequest(
-//     `https://nhentai.net/tag/${tagName}/?page=${pageNumb}`,
-//     "getDoujinsByTag"
-//   );
-//   let rrArr = [];
 
-//   $('div[class="container index-container"] .gallery a').each((i, e) => {
-//     rrArr.push({
-//       index: i + 1,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
-
-//   return rrArr;
-// }
-
-// async function getDoujinsByLang(lang = "english", pageNumb = 1) {
-//   let $ = await getRequest(
-//     `https://nhentai.net/language/${lang}/?page=${pageNumb}`,
-//     "getDoujinsByLang"
-//   );
-//   let rrArr = [];
-
-//   $('div[class="container index-container"] .gallery a').each((i, e) => {
-//     rrArr.push({
-//       index: i + 1,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
-
-//   return rrArr;
-// }
-
-// async function getDoujinsByGroup(group = "da-hootch", pageNumb = 1) {
-//   let $ = await getRequest(
-//     `https://nhentai.net/group/${group}/?page=${pageNumb}`,
-//     "getDoujinsByGroup"
-//   );
-//   let rrArr = [];
-
-//   $('div[class="container index-container"] .gallery a').each((i, e) => {
-//     rrArr.push({
-//       index: i + 1,
-//       name: $(e).text().split("/>")[1],
-//       link: $(e).attr("href"),
-//       coverScr: $(e).children().attr("data-src"),
-//       code: $(e).attr("href").split("/")[2],
-//     });
-//   });
-
-//   return rrArr;
-// }
 
 // async function getDoujinDownloadLink(code = 177013) {
 //   let $ = await getRequest(`https://nhentai.net/g/${code | 0}/`, "getDoujinDownloadLink");
