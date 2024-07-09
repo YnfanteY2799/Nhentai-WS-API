@@ -39,7 +39,7 @@ export async function getDoujinTags(code = "000000"): Promise<Array<string>> {
   return resp;
 }
 
-export async function getDoujinDownloadLinks(code = "") {
+export async function getDoujinDownloadLinks(code = ""): Promise<Array<string>> {
   const $ = await getRequest(`https://nhentai.net/g/${code}/1/`, "getDoujinDownloadLinks");
   const totalPagesAvailable = parseInt($(".num-pages").html() ?? "");
   const response: Array<string> = [];
@@ -55,16 +55,16 @@ export async function downloadDoujin(code = "379261", route = "C:\\"): Promise<v
   const $ = await getRequest(`https://nhentai.net/g/${code}/1/`, `DowloadDoujin ${code}`);
   const totalPagesAvailable = parseInt($(".num-pages").html() ?? "");
   const doujinName = $("head title").text().split(" - ")[0];
-  const folder = `${route}${doujinName}\\`;
+  const folder = `${route}${doujinName}`;
 
   if (!fs.existsSync(folder)) fs.mkdirSync(folder);
 
   for (let init = 1; init <= totalPagesAvailable; init++) {
     const $$ = await getRequest(`https://nhentai.net/g/${code}/${init}/`, "Download Method While executing !");
-    const link = $$("#image-container a img").attr("src");
-    const currFIleName = (link ?? "").split("/")[5];
+    const link = $$("#image-container a img").attr("src") ?? "";
+    const currFIleName = link.split("/")[5];
 
-    get(link ?? "", (res) => {
+    get(link, (res) => {
       const fls = fs.createWriteStream(folder + currFIleName);
       res.pipe(fls);
       fls.on("error", (error) => console.log(error));

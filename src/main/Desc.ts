@@ -2,7 +2,7 @@ import { getSection } from "./Core.js";
 
 import type { ITiledEntry } from "../types/types.js";
 
-export async function getDoujinsByTag(tagName = "big-breasts", pageNumb = 1): Promise<ITiledEntry[]> {
+export async function getDoujinsByTag(tagName = "big-breasts", pageNumb = 1): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
 
   const [section, $] = await getSection(
@@ -24,7 +24,7 @@ export async function getDoujinsByTag(tagName = "big-breasts", pageNumb = 1): Pr
   return response;
 }
 
-export async function getDoujinsByLang(lang = "english", pageNumb = 1): Promise<ITiledEntry[]> {
+export async function getDoujinsByLang(lang = "english", pageNumb = 1): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
 
   const [section, $] = await getSection(
@@ -46,7 +46,7 @@ export async function getDoujinsByLang(lang = "english", pageNumb = 1): Promise<
   return response;
 }
 
-export async function getDoujinsByGroup(group = "da-hootch", pageNumb = 1): Promise<ITiledEntry[]> {
+export async function getDoujinsByGroup(group = "da-hootch", pageNumb = 1): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
 
   const [section, $] = await getSection(
@@ -68,7 +68,7 @@ export async function getDoujinsByGroup(group = "da-hootch", pageNumb = 1): Prom
   return response;
 }
 
-export async function getDoujinsByArtist(artistName = "shindol", pageNumb = 1): Promise<ITiledEntry[]> {
+export async function getDoujinsByArtist(artistName = "shindol", pageNumb = 1): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
 
   const [section, $] = await getSection(

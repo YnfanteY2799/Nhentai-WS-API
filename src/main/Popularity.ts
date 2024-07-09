@@ -27,7 +27,7 @@ export async function getPopularDoujinshi(pageNum = 1): Promise<Array<ITiledEntr
   return response;
 }
 
-export async function getPopularManga(pageNum = 1) {
+export async function getPopularManga(pageNum = 1): Promise<Array<ITiledEntry>> {
   const response: Array<ITiledEntry> = [];
   const totalURI = MAIN_PAGE_URI.replace("XXXXX", "manga").concat(`?page=${pageNum}`);
 
